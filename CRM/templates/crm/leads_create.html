@@ -1,0 +1,122 @@
+
+{% extends "crm/layout.html" %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/datatables/datatables.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/bootstrap-slider/bootstrap-slider.css' %}">
+{% endblock %}
+{% block body %}
+
+<div class="layout-content">
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+        <h4 class="font-weight-bold py-3 mb-4">
+            <span class="text-muted font-weight-light">Leads /</span> Create
+        </h4>
+        <div class="card mb-4">
+            <h6 class="card-header">
+              New Lead
+            </h6>
+            <div class="card-body">
+              <form>
+                <div class="form-group row">
+                  <label class="col-form-label col-sm-2 text-sm-right">Lead Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="Lead Name">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-sm-2 text-sm-right">Expected Closed Date</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="datepicker-base" placeholder="Expected Closed Date">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-sm-2 text-sm-right">Products</label>
+                  <div class="col-sm-10">
+                    <select class="custom-select">
+                      <option selected="">Open this select menu</option>
+                      <option>One</option>
+                      <option>Two</option>
+                      <option>Three</option>
+                    </select>                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-sm-2 text-sm-right">Pipeline</label>
+                  <div class="col-sm-10">
+                    <select class="custom-select">
+                      <option selected="">Open this select menu</option>
+                      <option>One</option>
+                      <option>Two</option>
+                      <option>Three</option>
+                    </select>                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-sm-2 text-sm-right">Confidence Level</label>
+                  <div class="col-sm-10">
+                    <div class="slider-primary">
+                      <input class="bs-slider-variant" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" style="display: none;" data-value="9" value="9">
+                    </div>                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-sm-2 text-sm-right pt-sm-0">Priority</label>
+                  <div class="col-sm-10">
+                    <label class="custom-control custom-checkbox m-0">
+                      <input type="checkbox" class="custom-control-input">
+                      <span class="custom-control-label">This lead is hot</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-sm-2 text-sm-right">Company</label>
+                  <div class="col-sm-10">
+                    <select class="custom-select">
+                      <option selected="">Open this select menu</option>
+                      <option>One</option>
+                      <option>Two</option>
+                      <option>Three</option>
+                    </select>                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-sm-2 text-sm-right">Add Person</label>
+                  <div class="col-sm-10">
+                    <select class="custom-select">
+                      <option selected="">Open this select menu</option>
+                      <option>One</option>
+                      <option>Two</option>
+                      <option>Three</option>
+                    </select>                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-form-label col-sm-2 text-sm-right">Source</label>
+                  <div class="col-sm-10">
+                    <select class="custom-select">
+                      <option selected="">Open this select menu</option>
+                      <option>One</option>
+                      <option>Two</option>
+                      <option>Three</option>
+                    </select>                  </div>
+                </div>
+          
+                <div class="form-group row">
+                  <div class="col-sm-10 ml-sm-auto">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+     </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'crm/assets/js/demo.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor/libs/datatables/datatables.js' %}"></script>
+    <script src="{% static 'crm/assets/js/tables_datatables.js' %}"></script>
+    <script src="{% static 'crm/assets/js/forms_pickers.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor/libs/bootstrap-slider/bootstrap-slider.js' %}"></script>
+    <script src="{% static 'crm/assets/js/forms_sliders.js' %}"></script>
+{% endblock %}

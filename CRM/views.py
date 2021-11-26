@@ -7,7 +7,25 @@ from django.urls import reverse
 # Create your views here.
 def index(request):
     return render(request, "crm/index.html")
-    
+
+def company_create(request):
+    return render(request, "crm/company_create.html") 
+
+def company_list(request):
+    return render(request, "crm/company_list.html")
+
+def people_create(request):
+    return render(request, "crm/people_create.html")
+
+def people_list(request):
+    return render(request, "crm/people_list.html")
+
+def leads_list(request):
+    return render(request, "crm/leads_list.html")
+
+def leads_create(request):
+    return render(request, "crm/leads_create.html")
+
 def login_view(request):
 
     if request.method == "POST":
