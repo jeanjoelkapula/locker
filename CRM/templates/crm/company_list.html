@@ -10,9 +10,17 @@
 <div class="layout-content">
     <!-- Content -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="font-weight-bold py-3 mb-4">
-            <span class="text-muted font-weight-light">Companies /</span> List
-        </h4>
+        
+        <div style="display: flex; margin-bottom: 20px;">
+          <div>
+            <h4 class="font-weight-bold mb-4">
+              <span class="text-muted font-weight-light">Companies /</span> List
+            </h4>
+          </div>
+          <div style="margin-left: auto;">
+            <button type="submit" class="btn btn-primary">New Company</button>
+          </div>
+        </div>
         <div class="card">
             <h6 class="card-header">
               DataTable within card
@@ -21,11 +29,11 @@
               <table class="datatables-demo table table-striped table-bordered">
                 <thead>
                   <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>Company Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>URL</th>
                   </tr>
                 </thead>
                 <tbody>

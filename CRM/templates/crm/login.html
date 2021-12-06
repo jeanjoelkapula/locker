@@ -10,43 +10,112 @@
 		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="{% static 'crm/css/style.css' %}">
+		 <!-- Icon fonts -->
+		 <link rel="stylesheet" href="{% static 'crm/assets/vendor/fonts/fontawesome.css' %}">
+		 <link rel="stylesheet" href="{% static 'crm/assets/vendor/fonts/ionicons.css' %}">
+		 <link rel="stylesheet" href="{% static 'crm/assets/vendor/fonts/linearicons.css' %}">
+		 <link rel="stylesheet" href="{% static 'crm/assets/vendor/fonts/open-iconic.css' %}">
+		 <link rel="stylesheet" href="{% static 'crm/assets/vendor/fonts/pe-icon-7-stroke.css' %}">
+	   
+		 <!-- Core stylesheets -->
+		 <link rel="stylesheet" href="{% static 'crm/assets/vendor/css/rtl/bootstrap.css' %}" class="theme-settings-bootstrap-css">
+		 <link rel="stylesheet" href="{% static 'crm/assets/vendor/css/rtl/appwork.css' %}" class="theme-settings-appwork-css">
+		 <link rel="stylesheet" href="{% static 'crm/assets/vendor/css/rtl/theme-corporate.css' %}" class="theme-settings-theme-css">
+		 <link rel="stylesheet" href="{% static 'crm/assets/vendor/css/rtl/colors.css' %}" class="theme-settings-colors-css">
+		 <link rel="stylesheet" href="{% static 'crm/assets/vendor/css/rtl/uikit.css' %}">
+		 <link rel="stylesheet" href="{% static 'crm/assets/css/demo.css' %}">
+		 <link rel="stylesheet" href="{% static 'crm/assets/css/main.css' %}">		
+		 
+		 {% block stylesheet %}
+ 
+		 {% endblock %}
+	   
+		 <script src="{% static 'crm/js/jquery.min.js' %}"></script>
+
+		 <!-- Load polyfills -->
+		 <script src="{% static 'crm/assets/vendor/js/polyfills.js' %}"></script>
+		 <script>document['documentMode']===10&&document.write('<script src="https://polyfill.io/v3/polyfill.min.js?features=Intl.~locale.en"><\/script>')</script>
+	   
+		 <script src="{% static 'crm/assets/vendor/js/material-ripple.js' %}"></script>
+		 <script src="{% static 'crm/assets/vendor/js/layout-helpers.js' %}"></script>
+		<script src="{% static 'crm/assets/vendor/js/theme-settings.js' %}"></script>
+		<script>
+			window.themeSettings = new ThemeSettings({
+				onSettingsChange: function(currentSettings) {
+					//get settings
+					settings = window.themeSettings.settings;
+
+					//get theme primary color
+					primary = settings.theme.colors.primary;
+
+					var styleElem = document.head.appendChild(document.createElement("style"));
+
+					styleElem.innerHTML = `:root { --primary: ${primary}; }`;
+				},
+			  cssPath: "{% static 'crm/assets/vendor/css/rtl/' %}",
+			  themesPath: "{% static 'crm/assets/vendor/css/rtl/' %}"
+			});
+
+			
+		</script>
 	</head>
 	<body>
 		<section class="ftco-section">
 			<div class="container">
 				<div class="row justify-content-center">
-					<div class="col-md-6 col-lg-7">
-						<div class="login-wrap p-6 p-md-5" style="padding-left: 100px !important; padding-right: 100px !important;">
-							<div class="icon d-flex align-items-center justify-content-center">
-								<span class="fa fa-user-o"></span>
-							</div>
+					<div class="col-md-6 text-center mb-5">
+						<h2 class="heading-section"></h2>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-md-6 col-lg-5">
+						<div class="login-wrap p-4 p-md-5">
+					  <div class="icon d-flex align-items-center justify-content-center">
+						  <span class="far fa-user"></span>
+					  </div>
+					  <h3 class="text-center mb-4">Login</h3>
 							<form action="#" class="login-form">
-								<div class="form-group">
-									<input type="text" class="form-control rounded-left" placeholder="Username" required>
-								</div>
-								<div class="form-group d-flex">
-									<input type="password" class="form-control rounded-left" placeholder="Password" required>
-								</div>
-								<div class="form-group d-md-flex">
-									<div class="w-50">
-									</div>
-									<div class="w-50 text-md-right">
-										<a href="#">Forgot Password</a>
-									</div>
-								</div>
-								<div class="form-group" style="display: flex;">
-									<button type="submit" class="btn btn-primary rounded submit px-5">Login</button>
-								</div>
-							</form>
+						  <div class="form-group">
+							<label class="form-label" for="username">Username</label>
+							  <input id="username" type="text" class="form-control rounded-left" placeholder="Username" required>
+						  </div>
+					<div class="form-group">
+						<label class="form-label" for="password">Password</label>
+					  	<input id="password" type="password" class="form-control rounded-left" placeholder="Password" required>
+					</div>
+					<div class="form-group d-md-flex">
+
+						<div class="w-100 text-md-right">
+							<a href="#" style="color: var(--primary);">Don't have an account? Get started.</a>
 						</div>
+					</div>
+					<div class="form-group" style="display: flex;">
+						<button type="submit" class="btn btn-primary rounded submit p-3 px-5" style="padding-bottom: 32px !important;">Login</button>
+					</div>
+				  </form>
+				</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<script src="{% static 'crm/js/jquery.min.js' %}"></script>
-		<script src="{% static 'crm/js/popper.js' %}"></script>
-		<script src="{% static 'crm/js/bootstrap.min.js' %}"></script>
+		
+		<script src="{% static 'crm/assets/vendor/libs/popper/popper.js' %}"></script>
+		<script src="{% static 'crm/assets/vendor/js/bootstrap.js' %}"></script>
 		<script src="{% static 'crm/js/main.js' %}"></script>
+
+		<!-- / Layout wrapper -->
+
+		<!-- Libs -->
+		<script src="{% static 'crm/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+
+		<!-- Setting theme color vars -->
+		<script src="{% static 'crm/assets/js/theme_color_setter.js' %}"></script>
+
+		<script>
+			window.addEventListener('DOMContentLoaded', (event) => {
+				$('.theme-settings-open-btn').hide();
+			});
+		</script>
 	</body>
 </html>
 

@@ -1,0 +1,119 @@
+
+{% extends "crm/layout.html" %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/datatables/datatables.css' %}">
+{% endblock %}
+{% block body %}
+
+<div class="layout-content">
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+        <h4 class="font-weight-bold py-3 mb-4">
+            <span class="text-muted font-weight-light">Leads /</span> Page
+        </h4>
+        <div class="card">
+            <h6 class="card-header">
+              DataTable within card
+            </h6>
+            <div class="card-body">	
+                <div>
+                    <div class="lead-header">
+                       <div class="lead-header-item"> 
+                            <div class="lead-header-item-title">
+                                <h6>Opened On</h6>
+                            </div>
+                            <div class="lead-header-item-body">
+                                <span>21 December 2021</span>
+                            </div>
+                       </div>
+                        <div class="lead-header-item"> 
+                            <div class="lead-header-item-title">
+                                <h6>Expected Closed Date</h6>
+                            </div>
+                            <div class="lead-header-item-body">
+                                <span>21 December 2021</span>
+                            </div>
+                       </div>
+                        <div class="lead-header-item"> 
+                            <div class="lead-header-item-title">
+                                <h6>Confidence</h6>
+                            </div>
+                            <div class="lead-header-item-body">
+                                <span>21%</span>
+                            </div>
+                       </div>
+                    </div>
+                    <div class="" style="padding-bottom: 1.5rem;">	
+                        <div>
+                            <h6>Pipeline: <span>Default Pipeline</span></h6>
+                        </div>
+                        <div class="arrow-steps clearfix">
+                            <div class="step  current bg-primary" data-step="1"> <span> Step 1</span> </div>
+                            <div class="step" data-step="2"> <span>Step 2 some words</span> </div>
+                            <div class="step" data-step="3"> <span> Step 3</span> </div>
+                            <div class="step" data-step="4"> <span>Step 4</span> </div>
+                        </div>
+                        <div class="nav clearfix">
+                        </div>
+                    </div>
+                    <div class="lead-body">
+                        <div class="lead-body-item ">
+                            <div class="lead-body-item-header">
+                                <h6>
+                                    Goal: <span>Pitch</span>
+                                </h6>
+                            </div>
+                            <div class="lead-body-item-content">
+                                <div class="icon-div">
+                                    <div>
+                                        <i class="ion ion-md-flashlight"></i>
+                                    </div>
+                                </div>
+                                <div class="content-div">
+                                    <h6>Guidance</h6>
+                                    <p>Demonstrate our solution to the prospect, showing how it would improve their life and/or make them more successful. Encourage the prospect to share questions and objections so you can learn more about how to best serve them.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lead-body-item ">
+                            <div class="lead-body-item-header">
+                                <h6>
+                                    Tasks
+                                </h6>
+                            </div>
+                            <div class="lead-body-item-content">
+                                <div class="content-div">
+                                    <label class="custom-control custom-checkbox m-0">
+                                        <input type="checkbox" class="custom-control-input">
+                                        <span class="custom-control-label">This lead is hot</span>
+                                    </label>
+                                    <label class="custom-control custom-checkbox m-0">
+                                        <input type="checkbox" class="custom-control-input">
+                                        <span class="custom-control-label">This lead is hot</span>
+                                    </label>
+                                    <label class="custom-control custom-checkbox m-0">
+                                        <input type="checkbox" class="custom-control-input">
+                                        <span class="custom-control-label">This lead is hot</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'crm/assets/js/demo.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor/libs/datatables/datatables.js' %}"></script>
+    <script src="{% static 'crm/assets/js/tables_datatables.js' %}"></script>
+    <script src="{% static 'crm/assets/js/leads_wizard_progress.js' %}"></script>
+    
+{% endblock %}

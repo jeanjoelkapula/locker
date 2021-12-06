@@ -8144,13 +8144,13 @@ a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease;
-  color: #39B9D9 ; }
+  color: var(--primary); }
   a:hover, a:focus {
     text-decoration: none !important;
     outline: none !important;
     -webkit-box-shadow: none;
     box-shadow: none;
-    color: #39B9D9 ; }
+    color: var(--primary); }
 
 h1, h2, h3, h4, h5,
 .h1, .h2, .h3, .h4, .h5 {
@@ -8160,7 +8160,7 @@ h1, h2, h3, h4, h5,
   color: #000; }
 
 .bg-primary {
-  background: #39B9D9 !important; }
+  background: var(--primary)!important; }
 
 .ftco-section {
   padding: 7em 0; }
@@ -8190,11 +8190,11 @@ h1, h2, h3, h4, h5,
   .login-wrap h3 {
     font-weight: 700;
     font-size: 20px;
-    color: #39B9D9 ; }
+    color: var(--primary); }
   .login-wrap .icon {
     width: 80px;
     height: 80px;
-    background: #39B9D9 ;
+    background: var(--primary);
     border-radius: 50%;
     font-size: 30px;
     margin: 0 auto;
@@ -8292,9 +8292,9 @@ h1, h2, h3, h4, h5,
 
 /* Style the checkmark/indicator */
 .checkbox-primary {
-  color: #39B9D9 ; }
+  color: var(--primary); }
   .checkbox-primary input:checked ~ .checkmark:after {
-    color: #39B9D9 ; }
+    color: var(--primary); }
 
 .btn {
   cursor: pointer;
@@ -8305,20 +8305,20 @@ h1, h2, h3, h4, h5,
   .btn:hover, .btn:active, .btn:focus {
     outline: none; }
   .btn.btn-primary {
-    background: #39B9D9 !important;
-    border: 1px solid #39B9D9 !important;
+    background: var(--primary)!important;
+    border: 1px solid var(--primary)!important;
     color: #fff !important; }
     .btn.btn-primary:hover {
-      border: 1px solid #39B9D9 ;
+      border: 1px solid var(--primary);
       background: transparent;
-      color: #39B9D9 ; }
+      color: var(--primary); }
     .btn.btn-primary.btn-outline-primary {
-      border: 1px solid #39B9D9 ;
+      border: 1px solid var(--primary);
       background: transparent;
-      color: #39B9D9 ; }
+      color: var(--primary); }
       .btn.btn-primary.btn-outline-primary:hover {
         border: 1px solid transparent;
-        background: #39B9D9 ;
+        background: var(--primary);
         color: #fff; }
 
 .form-group {

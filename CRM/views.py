@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from .models import * 
 
 # Create your views here.
 def index(request):
@@ -25,6 +26,12 @@ def leads_list(request):
 
 def leads_create(request):
     return render(request, "crm/leads_create.html")
+
+def leads_page(request):
+    return render(request, "crm/leads_page.html")
+
+def settings(request):
+    return render(request, "crm/settings.html")
 
 def login_view(request):
 
@@ -56,8 +63,12 @@ def logout_view(request):
 def register(request):
 
     if request.method == "POST":
-        username = request.POST["username"]
         email = request.POST["email"]
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        company_name = request.POST['company_name']
+        company_phone = request.POST['company_phone']
+        company_email = request.POST['company_email']
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -67,9 +78,13 @@ def register(request):
                 "message": "Passwords must match."
             })
 
+        # create new customer account
+        customer = Customer(name= company_name, phone=company_phone, email=company_email)
+        customer.save()
+
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(first_name=first_name, last_name=last_name, email=email,password=password, customer=customer)
             user.save()
         except IntegrityError:
             return render(request, "crm/register.html", {

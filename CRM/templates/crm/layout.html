@@ -29,7 +29,8 @@
         <link rel="stylesheet" href="{% static 'crm/assets/vendor/css/rtl/colors.css' %}" class="theme-settings-colors-css">
         <link rel="stylesheet" href="{% static 'crm/assets/vendor/css/rtl/uikit.css' %}">
         <link rel="stylesheet" href="{% static 'crm/assets/css/demo.css' %}">
-
+		<link rel="stylesheet" href="{% static 'crm/assets/css/main.css' %}">		
+		
 		{% block stylesheet %}
 
 		{% endblock %}
@@ -46,6 +47,17 @@
         <script src="{% static 'crm/assets/vendor/js/theme-settings.js' %}"></script>
 		<script>
 			window.themeSettings = new ThemeSettings({
+				onSettingsChange: function(currentSettings) {
+					//get settings
+					settings = window.themeSettings.settings;
+
+					//get theme primary color
+					primary = settings.theme.colors.primary;
+
+					var styleElem = document.head.appendChild(document.createElement("style"));
+
+					styleElem.innerHTML = `:root { --primary: ${primary}; }`;
+				},
 			  cssPath: "{% static 'crm/assets/vendor/css/rtl/' %}",
 			  themesPath: "{% static 'crm/assets/vendor/css/rtl/' %}"
 			});
@@ -443,7 +455,7 @@
 							<div class="dropdown-menu dropdown-menu-right">
 								<a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-ios-person text-lightest"></i> &nbsp; My profile</a>
 								<a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-ios-mail text-lightest"></i> &nbsp; Messages</a>
-								<a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-md-settings text-lightest"></i> &nbsp; Account settings</a>
+								<a href="{% url 'settings' %}" class="dropdown-item"><i class="ion ion-md-settings text-lightest"></i> &nbsp; Account settings</a>
 								<div class="dropdown-divider"></div>
 								<a href="javascript:void(0)" class="dropdown-item"><i class="ion ion-ios-log-out text-danger"></i> &nbsp; Log Out</a>
 							</div>
@@ -494,6 +506,9 @@
 		<!-- Libs -->
 		<script src="{% static 'crm/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
 		<script src="{% static 'crm/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js' %}"></script>
+
+		<!-- Setting theme color vars -->
+		<script src="{% static 'crm/assets/js/theme_color_setter.js' %}"></script>
         {% block script %} 
             
 
