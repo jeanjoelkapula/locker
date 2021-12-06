@@ -4,16 +4,43 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from .models import * 
+from .forms import *
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 def index(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+
     return render(request, "crm/index.html")
 
 def company_create(request):
-    return render(request, "crm/company_create.html") 
+    if request.method == "POST":
+        form = CompanyForm(request.POST)
+
+        if form.is_valid():
+            form.instance.customer = request.user.customer
+            form.save()
+
+            return HttpResponseRedirect(reverse('company_create'))
+        else:
+            context = {
+            'form': form
+        }
+        return render(request, "crm/company_create.html", context) 
+    else:
+        context = {
+            'form': CompanyForm()
+        }
+        return render(request, "crm/company_create.html", context) 
 
 def company_list(request):
-    return render(request, "crm/company_list.html")
+    companies = Company.objects.all()
+    context = {
+        'companies': companies
+    }
+
+    return render(request, "crm/company_list.html", context)
 
 def people_create(request):
     return render(request, "crm/people_create.html")
@@ -61,36 +88,29 @@ def logout_view(request):
 
 
 def register(request):
-
     if request.method == "POST":
-        email = request.POST["email"]
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        company_name = request.POST['company_name']
-        company_phone = request.POST['company_phone']
-        company_email = request.POST['company_email']
+        user_form = UserForm(request.POST)
+        customer_form = CustomerForm(request.POST)
 
-        # Ensure password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            return render(request, "crm/register.html", {
-                "message": "Passwords must match."
-            })
+        if user_form.is_valid() and customer_form.is_valid():
+            customer_form.save()
+            user_form.instance.customer = customer_form.instance
+            user_form.instance.username = user_form.cleaned_data['email']
+            user_form.instance.password = make_password(user_form.cleaned_data['password'])
+            user_form.save()
 
-        # create new customer account
-        customer = Customer(name= company_name, phone=company_phone, email=company_email)
-        customer.save()
+            login(request, user_form.instance)
 
-        # Attempt to create new user
-        try:
-            user = User.objects.create_user(first_name=first_name, last_name=last_name, email=email,password=password, customer=customer)
-            user.save()
-        except IntegrityError:
-            return render(request, "crm/register.html", {
-                "message": "Username already taken."
-            })
-        login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            context = {
+                'user_form': user_form,
+                'customer_form': customer_form
+            }
+            return render(request, "crm/register.html", context)
     else:
-        return render(request, "crm/register.html")
+        context = {
+            'user_form': UserForm(),
+            'customer_form': CustomerForm()
+        }
+        return render(request, "crm/register.html", context)
