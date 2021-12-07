@@ -54,3 +54,22 @@ class CompanyForm(forms.ModelForm):
             'company_URL': _('URL'),
             'company_description': _('Description'),
         }
+
+class CompanyMemberForm(forms.ModelForm):
+    class Meta:
+        model = CompanyMember
+        fields = '__all__'
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder':'First name', 'required': True}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder':'Last name', 'required': True}),
+            'email': forms.EmailInput(attrs={'class': 'form-control rounded-left', 'placeholder':'Email', 'required': False}),
+            'phone': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder': 'Phone number'}),
+            'company': forms.Select(attrs={'class':'custom-select'})
+        }
+        labels = {
+            'first_name': _('First name'),
+            'last_name': _('Last name'),
+            'email': _('Email'),
+            'phone': _('Phone number'),
+            'company': _('Company'),
+        }

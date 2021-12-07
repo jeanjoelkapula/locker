@@ -43,10 +43,29 @@ def company_list(request):
     return render(request, "crm/company_list.html", context)
 
 def people_create(request):
-    return render(request, "crm/people_create.html")
+    if request.method == "POST":
+        form = CompanyMemberForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect(reverse('people_create'))
+        else:
+            context = {
+                'form': form
+            }
+        return render(request, "crm/people_create.html", context)
+
+    else:
+        context = {
+            'form': CompanyMemberForm()
+        }
+        return render(request, "crm/people_create.html", context)
 
 def people_list(request):
-    return render(request, "crm/people_list.html")
+    context = {
+        'members': CompanyMember.objects.all()
+    }
+    return render(request, "crm/people_list.html", context)
 
 def leads_list(request):
     return render(request, "crm/leads_list.html")
