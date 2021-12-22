@@ -19,6 +19,22 @@
   transition: background-color 0.2s ease;
 }
 
+.arrow-steps .add-new {
+	background-color: #f4f4f4;
+}
+
+.arrow-steps .add-new:hover {
+	background-color: #dcdcdc;
+}
+
+.arrow-steps .add-new::after {
+	border-left: 17px solid #f4f4f4 !important;
+}
+
+.arrow-steps .add-new:hover::after {
+	border-left: 17px solid #dcdcdc !important;
+}
+
 .arrow-steps .step:after,
 .arrow-steps .step:before {
 	content: " ";
@@ -41,11 +57,14 @@
 	z-index: 0;
 }
 
-.arrow-steps .step:first-child:before {
+.step-edit {
+	text-align: center;
+}
+.arrow-steps .step-container .first-step:before {
 	border: none;
 }
 
-.arrow-steps .step:first-child {
+.arrow-steps .step-container .first-step {
 	border-top-left-radius: 4px;
 	border-bottom-left-radius: 4px;
 }

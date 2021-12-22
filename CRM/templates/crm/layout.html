@@ -254,6 +254,24 @@
 				<li class="sidenav-item">
 					<a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
 						<i class="sidenav-icon fas fa-dollar-sign"></i>
+						<div>Pipelines</div>
+					</a>
+					<ul class="sidenav-menu">
+						<li class="sidenav-item">
+							<a href="{% url 'pipeline_create' %}" class="sidenav-link">
+								<div>Create</div>
+							</a>
+						</li>
+						<li class="sidenav-item">
+							<a href="{% url 'pipeline_list' %}" class="sidenav-link">
+								<div>List</div>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="sidenav-item">
+					<a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+						<i class="sidenav-icon fas fa-dollar-sign"></i>
 						<div>Leads</div>
 					</a>
 					<ul class="sidenav-menu">

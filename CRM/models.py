@@ -70,8 +70,10 @@ class Pipeline(models.Model):
         return f"{self.name}"
 
 class PipelineStage(models.Model):
+    step = models.IntegerField()
+    guidance = models.CharField(max_length=255, null=False, blank=False)
     name = models.CharField(max_length=255, null=False, blank=False)
-    pipe_line = models.ForeignKey(Pipeline, null=False, blank=False, related_name="stages", on_delete=CASCADE)
+    pipeline = models.ForeignKey(Pipeline, null=False, blank=False, related_name="stages", on_delete=CASCADE)
 
     def __str__(self):
         return f"{self.name}"
@@ -99,7 +101,7 @@ class LeadStatus(models.Model):
 class Lead(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     expected_close_date = models.DateField()
-    pipe_line = models.ForeignKey(Pipeline, null=False, blank=False, on_delete=DO_NOTHING)
+    pipeline = models.ForeignKey(Pipeline, null=False, blank=False, on_delete=DO_NOTHING)
     confidence = models.IntegerField()
     is_hot = models.BooleanField(default=False)
     source = models.ForeignKey(LeadSource, null=False, blank=False, related_name="leads", on_delete=DO_NOTHING)
