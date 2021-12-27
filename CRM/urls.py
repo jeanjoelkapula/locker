@@ -17,6 +17,7 @@ urlpatterns = [
     path("leads/page", views.leads_page, name="leads_page"),
     path('settings', views.settings, name="settings"),
     path('pipeline/create', views.pipeline_create, name='pipeline_create'),
-    path('pipeline/list', views.pipeline_create, name='pipeline_list'),
-    path('pipeline/save', views.save_pipeline, name='pipeline_save')
+    path('pipeline/list', views.pipeline_list, name='pipeline_list'),
+    path('pipeline/save', views.save_pipeline, name='pipeline_save'),
+    path('pipeline/<int:pipeline_id>/edit', views.pipeline_edit, name='pipeline_edit')
 ]

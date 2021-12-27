@@ -78,6 +78,14 @@ class PipelineStage(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    def serialize(self):
+        return {
+            'step': self.step,
+            'stage_name': self.name,
+            'guidance': self.guidance,
+            'tasks': [{'id': task.id, 'task_name':task.name} for task in self.tasks.all()]
+        }
+
 class Task(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     pipeline_stage = models.ForeignKey(PipelineStage, null=False, blank=False, related_name="tasks", on_delete=CASCADE)

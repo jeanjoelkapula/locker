@@ -73,7 +73,61 @@ def pipeline_create(request):
     return render(request, 'crm/pipeline_create.html')
 
 def pipeline_list(request):
-    return render(request, 'crm/pipeline_list.html')
+    pipelines = Pipeline.objects.all()
+
+    context = {
+        'pipelines': pipelines
+    }
+    return render(request, 'crm/pipeline_list.html', context)
+
+def pipeline_edit(request, pipeline_id):
+    try:
+        pipeline = Pipeline.objects.get(pk=pipeline_id)
+    except Pipeline.DoesNotExist:
+        return HttpResponse('Page not found')
+        
+    if request.method == "GET":
+
+        context = {
+            'pipeline': pipeline
+        }
+        return render(request, 'crm/pipeline_edit.html', context)
+
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        #update user following
+        if data.get('pipeline_name'):
+            if data.get('steps'):
+
+                pipeline.name= data.get('pipeline_name')
+
+                is_valid = True
+                stages = []
+                for stage in data.get('steps'):
+                    if len(stage['tasks']) == 0:
+                        is_valid = False
+                    else:
+                        stages.append(PipelineStage(step=stage['step'], name=stage['stage_name'], pipeline=pipeline, guidance= stage['guidance']))
+
+                if is_valid:
+                    pipeline.save()
+                    pipeline.stages.all().delete()
+                    for i in range(0, len(stages)):
+                        stages[i].save()
+                        for task in data.get('steps')[i]['tasks']:
+                            task = Task(name=task['task_name'], pipeline_stage=stages[i])
+                            task.save()
+
+                    return JsonResponse({"success": "Pipeline was successfully edited"}, status=201)
+                else:
+                    return JsonResponse({"error": "Please ensure each stage has at least one task"}, status=403)
+
+            else:
+                return JsonResponse({"error": "No pipeline name specified"}, status=403)
+
+        else:
+            return JsonResponse({"error": "No pipeline name specified"}, status=403)
 
 def leads_list(request):
     return render(request, "crm/leads_list.html")

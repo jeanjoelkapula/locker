@@ -9,9 +9,6 @@ steps = [
 current_step = 1;
 
 $(function() {
-    /*$('.pipeline-stage').on('click', function(){
-        $('#show-modal').click();
-    });*/
 
     $('#stage-name').on('keyup', function(){
         $('#stage-name-error').hide();
@@ -97,6 +94,7 @@ function edit_stage(element) {
 
 function save_stage_edit(button){
     stage = steps.find(stage => stage.step == button.dataset.step);
+
     document.querySelector(`#${stage.stage_name}`).id = $('#stage-name-edit').val();
     document.querySelector(`#tasks-${stage.stage_name}`).id = 'tasks-' + $('#stage-name-edit').val();
 
@@ -137,7 +135,7 @@ function add_task(element){
             <div class="d-flex  w-100">
                 <div class="col-9">
                     <label class="custom-control custom-checkbox m-0">
-                        <input type="checkbox" class="custom-control-input" onclick="oncheck(this);" checked>
+                        <input type="checkbox" class="custom-control-input" onclick="oncheck(this);">
                         <span class="custom-control-label">${task_name}</span>
                     </label>
                 </div>
@@ -245,8 +243,15 @@ function save_stage(){
 
 }
 
-function save_pipeline() {
+function save_pipeline(element) {
     pipeline_name = document.querySelector('#pipeline-name').value;
+    if (element.dataset.pipeline){
+        url = `/pipeline/${element.dataset.pipeline}/edit`;
+    }
+    else{
+        url = '/pipeline/save';
+    }
+   
     if (pipeline_name.trim().length == 0) {
         Swal.fire(
             'Missing pipeline name',
@@ -317,7 +322,7 @@ function save_pipeline() {
             });
 
             const request = new Request(
-                '/pipeline/save',
+                url,
                 {headers: {'X-CSRFToken': csrftoken}}
             );
 
@@ -330,7 +335,7 @@ function save_pipeline() {
             .then(data => {
                 if (data.success) {
                     Swal.fire({
-                        title: 'Pipeline Created',
+                        title: 'Pipeline',
                         text: data.success,
                         type: 'success',
                         onClose: ()=>{
