@@ -133,10 +133,54 @@ def leads_list(request):
     return render(request, "crm/leads_list.html")
 
 def leads_create(request):
-    return render(request, "crm/leads_create.html")
+    if request.method == "GET":
+        products = request.user.customer.products.all()
+        pipelines = Pipeline.objects.all()
+        sources = LeadSource.objects.all()
+        companies = request.user.customer.companies.all()
+        people = companies.first().members.all()
+        context = {
+            'products': products,
+            'sources': sources,
+            'pipelines': pipelines,
+            'companies': companies,
+            'people': people
+        }
+
+        return render(request, "crm/leads_create.html", context)
 
 def leads_page(request):
     return render(request, "crm/leads_page.html")
+
+def products_create(request):
+    if request.method == "GET":
+        context = {
+            'form': ProductForm(initial={'unit': Unit.objects.first().id})
+        }
+        return render(request, "crm/products_create.html", context)
+
+    if request.method =="POST":
+        form = ProductForm(request.POST)
+
+        if form.is_valid():
+            if form.cleaned_data['is_service'] == False:
+                form.cleaned_data['unit'] = None
+            form.instance.customer = request.user.customer
+            form.save()
+            return HttpResponseRedirect(reverse('products_create'))
+        else:
+            context = {
+                'form': form
+            }
+            return render(request, "crm/products_create.html", context)
+
+def products_list(request):
+    if request.method == "GET":
+        products = Product.objects.all()
+        context = {
+            'products': products
+        }
+        return render(request, "crm/products_list.html", context)
 
 def settings(request):
     return render(request, "crm/settings.html")

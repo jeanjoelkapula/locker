@@ -19,5 +19,7 @@ urlpatterns = [
     path('pipeline/create', views.pipeline_create, name='pipeline_create'),
     path('pipeline/list', views.pipeline_list, name='pipeline_list'),
     path('pipeline/save', views.save_pipeline, name='pipeline_save'),
-    path('pipeline/<int:pipeline_id>/edit', views.pipeline_edit, name='pipeline_edit')
+    path('pipeline/<int:pipeline_id>/edit', views.pipeline_edit, name='pipeline_edit'),
+    path('products/create', views.products_create, name="products_create"),
+    path('products/list', views.products_list, name="products_list")
 ]

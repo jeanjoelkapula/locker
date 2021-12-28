@@ -73,3 +73,46 @@ class CompanyMemberForm(forms.ModelForm):
             'phone': _('Phone number'),
             'company': _('Company'),
         }
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        exclude = ['customer']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder':'Product name', 'required': True}),
+            'is_service': forms.CheckboxInput(attrs={'class': 'custom-control-input'}),
+            'price': forms.NumberInput(attrs={'class':'form-control'}),
+            'unit': forms.Select(attrs={'class':'custom-select', 'required': 'true'})
+
+        }
+        labels = {
+            'name': _('Product name'),
+            'is_service': _('Product type'),
+            'unit': _('Product unit'),
+            'price': _('Product price'),
+        }
+
+        
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+        self.fields['unit'].empty_label = None
+
+class LeadForm(forms.ModelForm):
+    class Meta:
+        model = Lead
+        exclude = ['status, product_lines, customer']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder':'Lead name', 'required': True}),
+            'expected_closed_date' : forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder':'Expected closed date'}),
+            'pipeline': forms.Select(attrs={'class':'custom-select'}),
+            'is_hot': forms.CheckboxInput(attrs={'class': 'custom-control-input'}),
+            'confidence': forms.TextInput(attrs={'class': 'bs-slider-variant', "data-slider-min":"1", "data-slider-max":"100", "data-slider-step":"1", "data-slider-value":"14" ,"style": "display: none;", "data-value" :"9", "value":"9"}),
+            'source': forms.Select(attrs={'class':'custom-select'}),
+        }
+        labels = {
+            'name':  _('Lead name'),
+            'expected_closed_date':  _('Expected closed date'),
+            'pipeline':  _('Pipeline'),
+            'is_hot':  _('Priority'),
+            'confidence':  _('Confidence'),
+            'source':  _('Source'),
+        }
