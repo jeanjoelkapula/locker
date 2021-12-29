@@ -21,5 +21,6 @@ urlpatterns = [
     path('pipeline/save', views.save_pipeline, name='pipeline_save'),
     path('pipeline/<int:pipeline_id>/edit', views.pipeline_edit, name='pipeline_edit'),
     path('products/create', views.products_create, name="products_create"),
-    path('products/list', views.products_list, name="products_list")
+    path('products/list', views.products_list, name="products_list"),
+    path('lead/save', views.save_lead, name='lead_save')
 ]

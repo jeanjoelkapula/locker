@@ -298,3 +298,37 @@
     transform: translate(0, 0) scale(1);
     pointer-events: auto;
 }
+
+/* LEAD CREATION */
+.products-container, .people-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	max-height: 140px;
+	overflow-y: auto;
+}
+
+.product-item, .person-item {
+	display: flex;
+	background-color: #D9E3F7;
+	width: fit-content;
+	padding: 13px;
+	margin-left: 15px;
+	margin-top: 15px;
+}
+
+.product-item .product-remove, .person-item .person-remove {
+	margin-left: 11px;
+	padding-top: 4px;
+}
+
+.product-item .product-remove a, .person-item .person-remove a{
+	height: fit-content;
+}
+
+
+.product-item .person-icon {
+	margin-right: 11px;
+	padding-top: 4px;
+margin-right: 11px;
+}

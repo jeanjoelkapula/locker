@@ -248,6 +248,107 @@ def save_pipeline(request):
             "error": "POST request required."
         }, status=400)
 
+def save_lead(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        valid = True
+        message = ""
+        pipeline = None
+        source = None
+        products = []
+        people = []
+
+        print(data)
+        #update user following
+        if data.get('lead_name') is  None:
+            valid = False
+            message += f"* Lead name missing \n"
+
+        if data.get('closed_date') is None:
+            valid = False
+            message += f"* Expected closed date missing \n"
+
+        if data.get('pipeline') is  None:
+            valid = False
+            message += f"* Pipeline missing \n"
+        else:
+            try:
+                pipeline = Pipeline.objects.get(pk=int(data.get('pipeline')))
+            except Pipeline.DoesNotExist:
+                valid = False
+
+        if data.get('confidence') is  None:
+            valid = False
+            message += f"* Confidence level missing \n"
+
+        if data.get('priority') is  None:
+            valid = False
+            message += f"* Priority missing \n"
+
+        if data.get('company') is  None:
+            valid = False
+            message += f"* Company missing \n"
+
+        if data.get('source') is  None:
+            valid = False
+            message += f"* Expected closed date missing \n"
+        else:
+            try:
+                source = LeadSource.objects.get(pk=int(data.get('source')))
+            except LeadSource.DoesNotExist:
+                valid = False
+
+        if data.get('products') is  None:
+            valid = False
+            message += f"* Products missing \n"
+        else:
+            if len(data.get('products')) == 0:
+                valid = False
+            else:
+                for item in data.get('products'):
+                    try:
+                        product = Product.objects.get(pk=item['id'])
+                        products.append(ProductLine(product=product, quantity=item['quantity']))
+                    except Product.DoesNotExist:
+                        valid = False
+                        break
+
+
+        if data.get('people') is  None:
+            valid = False
+            message += f"* People date missing \n"
+        else:
+            if len(data.get('people')) == 0:
+                valid = False
+            else:
+                for item in data.get('people'):
+                    try:
+                        person = CompanyMember.objects.get(pk=item['id'])
+                        people.append(person)
+                    except CompanyMember.DoesNotExist:
+                        valid = False
+                        break
+        if valid:
+            status = LeadStatus.objects.get(name='Pending')
+            lead = Lead(name=data.get('lead_name'), expected_close_date=data.get('closed_date'), pipeline = pipeline, source=source, customer=request.user.customer, confidence = data.get('confidence'), is_hot=data.get('priority'), status=status)
+            lead.save()
+
+            for product in products:
+                product.save()
+                lead.product_lines.add(product)
+
+            for person in people:
+                lead.people.add(person)
+
+            return JsonResponse({"success": "Lead was successfully created"}, status=200)
+        else:
+            return JsonResponse({"error": message}, status=200)
+
+    else:
+        return JsonResponse({
+            "error": "POST request required."
+        }, status=400)
+
 def logout_view(request):
 
     logout(request)

@@ -28,6 +28,13 @@ class Company(models.Model):
 
     def __str__(self):
         return f"{self.company_name}"
+    
+    def  serialize(self):
+        return {
+            'id': self.id,
+            'company_name': self.company_name,
+            'members': [{'id': member.id, 'first_name': member.first_name, 'last_name': member.last_name} for member in self.members.all()]
+        }
 
 class CompanyMember(models.Model):
     first_name = models.CharField(max_length=64, null=False, blank=False)
@@ -38,6 +45,13 @@ class CompanyMember(models.Model):
 
     def __str__(self):
         return f"{self.company} - {self.first_name} {self.last_name}"
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+        }
 
 class Unit(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
@@ -54,6 +68,14 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price,
+            'unit': self.unit.name,
+        }
 
 class ProductLine(models.Model):
     product = models.ForeignKey(Product, null=False, blank=False, on_delete=DO_NOTHING)
@@ -115,6 +137,8 @@ class Lead(models.Model):
     source = models.ForeignKey(LeadSource, null=False, blank=False, related_name="leads", on_delete=DO_NOTHING)
     status = models.ForeignKey(LeadStatus, null=False, blank=False, related_name="leads", on_delete=DO_NOTHING)
     product_lines = models.ManyToManyField(ProductLine)
+    people = models.ManyToManyField(CompanyMember)
+
     customer = models.ForeignKey(Customer, null=False, blank=False, related_name="leads", on_delete=CASCADE) 
 
     def __str__(self):
