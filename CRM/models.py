@@ -111,11 +111,16 @@ class PipelineStage(models.Model):
 class Task(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     pipeline_stage = models.ForeignKey(PipelineStage, null=False, blank=False, related_name="tasks", on_delete=CASCADE)
-    is_complete = models.BooleanField(null=False, blank=False, default= False)
 
     def __str__(self):
         return f"{self.name}"
 
+class TaskProgessLine(models.Model):
+    task = models.ForeignKey(Task, null=False, blank=False, on_delete=CASCADE)
+    is_complete = models.BooleanField(null=False, blank=False, default= False)
+
+    def __str__(self):
+        return f"task - {self.task} stage id: {self.task.pipeline_stage.id} stage name: {self.task.pipeline_stage}"
 class LeadSource(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
 
@@ -128,6 +133,12 @@ class LeadStatus(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+
 class Lead(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     expected_close_date = models.DateField()
@@ -138,8 +149,39 @@ class Lead(models.Model):
     status = models.ForeignKey(LeadStatus, null=False, blank=False, related_name="leads", on_delete=DO_NOTHING)
     product_lines = models.ManyToManyField(ProductLine)
     people = models.ManyToManyField(CompanyMember)
-
+    company = models.ForeignKey(Company, blank=False, null=False, on_delete=CASCADE)
     customer = models.ForeignKey(Customer, null=False, blank=False, related_name="leads", on_delete=CASCADE) 
+    opened_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.name}"
+    
+    def value(self):
+        value = 0
+        for product_line in self.product_lines.all():
+            value += product_line.product.price * product_line.quantity
+
+        return value
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'status': self.status.serialize(),
+            'pipeline_stages': [item.serialize() for item in  self.pipeline.stages.all()]
+        }
+
+class LeadProgress(models.Model):
+    lead = models.ForeignKey(Lead, null=False, blank=False, on_delete=CASCADE)
+    task_lines = models.ManyToManyField(TaskProgessLine, blank=True)
+
+    def save(self, *args, **kwargs):
+        super(LeadProgress, self).save(*args, **kwargs)
+        for stage in self.lead.pipeline.stages.all():
+            for task in stage.tasks.all():
+                t = TaskProgessLine(task=task)
+                t.save()
+                self.task_lines.add(t)
+
+    def __str__(self):
+        return f"{self.lead}"

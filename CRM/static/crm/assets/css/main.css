@@ -23,6 +23,9 @@
 	background-color: #f4f4f4 !important;
 }
 
+.arrow-steps .step-disabled {
+	background-color: #b9b9b9 !important;
+}
 
 .arrow-steps .step-list-item {
 	background-color: #f4f4f4 !important;
@@ -40,6 +43,9 @@
 	border-left: 17px solid #f4f4f4 !important;
 }
 
+.arrow-steps .step-disabled::after {
+	border-left: 17px solid #b9b9b9!important;
+}
 
 .arrow-steps .add-new:hover::after {
 	border-left: 17px solid #dcdcdc !important;
@@ -330,5 +336,5 @@
 .product-item .person-icon {
 	margin-right: 11px;
 	padding-top: 4px;
-margin-right: 11px;
+	margin-right: 11px;
 }

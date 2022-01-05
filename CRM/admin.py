@@ -15,5 +15,7 @@ admin.site.register(Task)
 admin.site.register(LeadSource)
 admin.site.register(LeadStatus)
 admin.site.register(Lead)
+admin.site.register(TaskProgessLine)
+admin.site.register(LeadProgress)
 
 
