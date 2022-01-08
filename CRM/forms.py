@@ -19,19 +19,36 @@ class UserForm(forms.ModelForm):
             'password': _('Password'),
         }
 
+class SettingsUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder':'First name', 'required': True}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder':'Last name', 'required': True}),
+            'email': forms.EmailInput(attrs={'class': 'form-control rounded-left', 'placeholder':'Email', 'required': True}),
+        }
+        labels = {
+            'first_name': _('First name'),
+            'last_name': _('Last name'),
+            'email': _('Email'),
+        }
+
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['customer_name', 'customer_phone', 'customer_email']
+        fields = ['customer_name', 'customer_phone', 'customer_email', 'sales_target']
         widgets = {
             'customer_name': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder': 'What is your company name?'}),
             'customer_phone': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder': 'What is your company phone number?'}),
             'customer_email': forms.EmailInput(attrs={'class': 'form-control rounded-left', 'placeholder': 'What is your company email?'}),
+            'sales_target': forms.NumberInput(attrs={'class':'form-control'}),
         }
         labels = {
             'customer_name': _('What is your company name?'),
             'customer_phone': _('What is your company phone number?'),
             'customer_email': _('What is your company email?'),
+            'sales_target': _('Monthly sales target'),
         }
 
 class CompanyForm(forms.ModelForm):

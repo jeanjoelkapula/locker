@@ -6,16 +6,147 @@ from django.shortcuts import render
 from django.urls import reverse
 from .models import * 
 from .forms import *
+from . import util
 import json
+from django.db.models import Sum
+from datetime import datetime,date, timedelta
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
+
 
 # Create your views here.
 def index(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('login'))
 
-    return render(request, "crm/index.html")
+    sales_count = 0
+    for sale in Sale.objects.filter(date__month=datetime.now().month, customer = request.user.customer):
+        sales_count += sale.lead.value()
+    
+    total_sales = Sale.objects.filter(customer = request.user.customer)
+    total_sales_income = 0
+    total_sales_count = len(total_sales)
+
+    for sale in total_sales:
+        total_sales_income += sale.lead.value()
+    
+    sales_lost = Lead.objects.filter(customer=request.user.customer, status__name='Lost')
+    total_sales_loss = 0
+    start_index = 1
+    last_sale_date = total_sales.last().date
+
+    start_index = datetime.now().month - 8
+    month_sales = []
+    month_losses = []
+    labels = []
+    prev = date.today()
+    for i in range(0,8):
+        datetime_object = datetime.strptime(str((prev.month)), "%m")
+        month_name = datetime_object.strftime("%b")
+        month_sales.append(len(total_sales.filter(date__month=prev.month)))
+        month_losses.append(len(LeadLoss.objects.filter(date__month=prev.month)))
+        labels.append(f"{month_name} - {prev.year}")
+        prev = prev.replace(day=1) - timedelta(days=1)
+        
+        #month_losses = Lead.objects.filter(customer = request.user.customer, )
+    labels.reverse()
+    month_losses.reverse()
+    month_sales.reverse()
+    stat_chart_data = {
+        'labels': labels,
+        'datasets': [
+            {
+                'label': 'Sales',
+                'data': month_sales,
+                'borderWidth': 1,
+                'backgroundColor': 'rgba(28,180,255,.05)',
+                'borderColor': 'rgba(28,180,255,1)'
+            },
+            {
+            'label': 'Losses',
+            'data': month_losses,
+            'borderWidth': 1,
+            'backgroundColor': 'rgba(136, 151, 170, 0.1)',
+            'borderColor': '#8897aa'
+            }
+        ]
+    }
+
+    sales_loss_count = len(sales_lost)
+    for lead in sales_lost:
+        total_sales_loss += lead.value()
+    
+    hot_leads = Lead.objects.filter(customer=request.user.customer, is_hot=True).order_by('-expected_close_date')
+
+    leads_pie_chart_data =  {
+      'labels': ['Lost Leads', 'Open Leads', 'Leads Won'],
+      'datasets': [{
+        'data': [len(Lead.objects.filter(customer=request.user.customer, status__name='Lost')), len(Lead.objects.filter(customer=request.user.customer, status__name='Open')), len(Lead.objects.filter(customer=request.user.customer, status__name='Won'))],
+        'backgroundColor': ['rgba(99,125,138,0.5)', 'rgba(28,151,244,0.5)', 'rgba(2,188,119,0.5)'],
+        'borderColor': ['#647c8a', '#2196f3', '#02bc77'],
+        'borderWidth': 1
+      }]
+    }
+
+    pipeline = Pipeline.objects.filter(customer=request.user.customer).last()
+
+    stage_lead_counts = util.get_stage_stats(pipeline)
+
+    current_month_sales = Sale.objects.filter(date__month=datetime.now().month)
+    current_month_sales_value = 0
+    for sale in current_month_sales:
+        current_month_sales_value += sale.lead.value()
+    
+    doughtnut_progress = (current_month_sales_value * 100) / request.user.customer.sales_target
+    if (100 - doughtnut_progress) > 0:
+        doughnut_remainder = 100 - doughtnut_progress
+    else:
+        doughnut_remainder = 0
+
+    doughnut_chart_data = [{
+        'data': [doughtnut_progress, doughnut_remainder],
+        'backgroundColor': ['#fff', 'rgba(255,255,255,0.3)'],
+        'hoverBackgroundColor': ['#fff', 'rgba(255,255,255,0.3)'],
+        'borderWidth': 0
+    }]
+
+    context = {
+        'sales_count': sales_count,
+        'products_count': len(Product.objects.filter(customer=request.user.customer)),
+        'companies_count': len(Company.objects.filter(customer=request.user.customer)),
+        'people_count': len(CompanyMember.objects.filter(company__customer = request.user.customer)),
+        'total_sales': total_sales,
+        'total_sales_income': total_sales_income,
+        'total_sales_count': total_sales_count,
+        'sales_loss_count': sales_loss_count,
+        'sales_lost': sales_lost,
+        'total_sales_loss': total_sales_loss,
+        'stat_chart_data': stat_chart_data,
+        'hot_leads': hot_leads, 
+        'leads_pie_chart_data': leads_pie_chart_data,
+        'pipeline_list': Pipeline.objects.filter(customer=request.user.customer),
+        'stage_lead_counts': stage_lead_counts,
+        'doughnut_chart_data': doughnut_chart_data,
+        'current_month_sales_value': current_month_sales_value,
+        'doughtnut_progress': doughtnut_progress
+    }
+
+    return render(request, "crm/index.html", context)
+
+
+def stage_stats(request, pipeline_id):
+    if request.method == "GET":
+        try:
+            pipeline = Pipeline.objects.get(pk=pipeline_id)
+            stats = util.get_stage_stats(pipeline)
+
+            return JsonResponse({"success": True, 'stats': stats}, status=200)
+        except Pipeline.DoesNotExist:
+            return JsonResponse({"error": "Pipeline does not exist"}, status=200)
+    else:
+        return JsonResponse({
+            "error": "GET request required."
+        }, status=400)
 
 def company_create(request):
     if request.method == "POST":
@@ -38,7 +169,7 @@ def company_create(request):
         return render(request, "crm/company_create.html", context) 
 
 def company_list(request):
-    companies = Company.objects.all()
+    companies = Company.objects.filter(customer=request.user.customer)
     context = {
         'companies': companies
     }
@@ -66,7 +197,7 @@ def people_create(request):
 
 def people_list(request):
     context = {
-        'members': CompanyMember.objects.all()
+        'members': CompanyMember.objects.filter(company__customer=request.user.customer)
     }
     return render(request, "crm/people_list.html", context)
 
@@ -74,7 +205,7 @@ def pipeline_create(request):
     return render(request, 'crm/pipeline_create.html')
 
 def pipeline_list(request):
-    pipelines = Pipeline.objects.all()
+    pipelines = Pipeline.objects.filter(customer = request.user.customer)
 
     context = {
         'pipelines': pipelines
@@ -132,14 +263,14 @@ def pipeline_edit(request, pipeline_id):
 
 def leads_list(request):
     context = {
-        'leads': Lead.objects.all()
+        'leads': Lead.objects.filter(customer= request.user.customer)
     }
     return render(request, "crm/leads_list.html", context)
 
 def leads_create(request):
     if request.method == "GET":
         products = request.user.customer.products.all()
-        pipelines = Pipeline.objects.all()
+        pipelines = Pipeline.objects.filter(customer= request.user.customer)
         sources = LeadSource.objects.all()
         companies = request.user.customer.companies.all()
         people = companies.first().members.all()
@@ -177,6 +308,12 @@ def update_lead_status(request, lead_id):
                 if lead.status.name == "Open" or lead.status.name == "Lost" or lead.status.name == 'Cancelled':
                     lead.status = s
                     lead.save()
+                
+                    if lead.status.name == "Lost":
+                        obj, created = LeadLoss.objects.get_or_create(lead=lead, reason=data.get('reason'))
+                    
+                    if lead.status.name == "Open":
+                        LeadLoss.objects.filter(lead=lead).delete()
 
                     return JsonResponse({"success": "Lead was successfully updated", "status":s.serialize()}, status=200)
                 else:
@@ -214,14 +351,153 @@ def products_create(request):
 
 def products_list(request):
     if request.method == "GET":
-        products = Product.objects.all()
+        products = Product.objects.filter(customer= request.user.customer)
         context = {
             'products': products
         }
         return render(request, "crm/products_list.html", context)
 
-def settings(request):
-    return render(request, "crm/settings.html")
+def settings(request):  
+    context={
+        'user_form': SettingsUserForm(instance=request.user),
+        'customer_form': CustomerForm(instance=request.user.customer)
+    }
+    return render(request, "crm/settings.html", context)
+
+def settings_account(request):
+    if request.method == "POST":
+        user_form = SettingsUserForm(request.POST, instance=request.user)
+
+        if user_form.is_valid():
+            user_form.save()
+
+            return HttpResponseRedirect(reverse("settings"))
+        else:
+            context = {
+                'user_form': user_form,
+                'customer_form': CustomerForm(instance=request.user.customer)
+            }
+
+            return render(request, "crm/settings.html", context)
+
+    if request.method == "GET":
+        context={
+            'user_form': SettingsUserForm(instance=request.user),
+            'customer_form': CustomerForm(instance=request.user.customer)
+        }
+        return render(request, "crm/settings.html", context)
+
+def settings_customer(request):
+    if request.method == "POST":
+        customer_form = CustomerForm(request.POST, instance=request.user.customer)
+
+        if customer_form.is_valid():
+            customer_form.save()
+
+            return HttpResponseRedirect(reverse("settings"))
+        else:
+            context = {
+                'customer_form': SettingsUserForm(instance=request.user),
+                'customer_form': customer_form
+            }
+
+            return render(request, "crm/settings.html", context)
+
+    if request.method == "GET":
+        context={
+            'user_form': SettingsUserForm(instance=request.user),
+            'customer_form': CustomerForm(instance=request.user.customer)
+        }
+        return render(request, "crm/settings.html", context)
+
+def settings_password(request):
+    if request.method == "POST":
+        current_message = None
+        match_message = None
+        new_password = None
+        current_password = None
+        repeat_password = None
+        
+        if request.POST.get('current-password'):
+            current_password = request.POST['current-password']
+        
+        if request.POST.get('new-password'):
+            new_password = request.POST['new-password']
+    
+        if request.POST.get('repeat-password'):
+            repeat_password = request.POST['repeat-password']
+
+        if  (new_password is None) or (repeat_password is None) or (current_password is None):
+            match_message = "Please fill out the form"
+            context = {
+                'user_form': SettingsUserForm(instance=request.user),
+                'customer_form': CustomerForm(instance=request.user.customer),
+                'current_password': current_message,
+                'current_message': current_message,
+                'match_message': match_message,
+                'new_password': new_password,
+                'repeat_password': repeat_password
+            }
+
+            return render(request, "crm/settings.html", context)
+
+        result = authenticate(request, username=request.user.username, password=current_password)
+        if result is None:
+            current_message = "Current password is invalid"
+            context = {
+                'user_form': SettingsUserForm(instance=request.user),
+                'customer_form': CustomerForm(instance=request.user.customer),
+                'current_password': current_message,
+                'current_message': current_message,
+                'match_message': match_message,
+                'new_password': new_password,
+                'repeat_password': repeat_password
+            }
+
+            return render(request, "crm/settings.html", context)
+        
+        if new_password != repeat_password:
+            match_message = "Password does not match"
+
+            context = {
+                'user_form': SettingsUserForm(instance=request.user),
+                'customer_form': CustomerForm(instance=request.user.customer),
+                'current_password': current_message,
+                'current_message': current_message,
+                'match_message': match_message,
+                'new_password': new_password,
+                'repeat_password': repeat_password
+            }
+
+            return render(request, "crm/settings.html", context)
+        elif new_password.strip() == '':
+            match_message = "Please enter a valid password"
+            context = {
+                'user_form': SettingsUserForm(instance=request.user),
+                'customer_form': CustomerForm(instance=request.user.customer),
+                'current_password': current_message,
+                'current_message': current_message,
+                'match_message': match_message,
+                'new_password': new_password,
+                'repeat_password': repeat_password
+            }
+
+            return render(request, "crm/settings.html", context)
+
+        if (current_message is None) and (match_message is None):
+
+            request.user.password = make_password(new_password)
+            user = request.user
+            request.user.save()
+            login(request, user)
+            return HttpResponseRedirect(reverse("settings"))
+
+    if request.method == "GET":
+        context={
+            'user_form': SettingsUserForm(instance=request.user),
+            'customer_form': CustomerForm(instance=request.user.customer)
+        }
+        return render(request, "crm/settings.html", context)
 
 def login_view(request):
 
@@ -416,6 +692,8 @@ def advance_to_stage(request, lead_id):
                         lead.status = s
                         lead.save()
 
+                        obj, created = Sale.objects.get_or_create(lead=lead)
+
                     return JsonResponse({"success": "Succesfully advanced to next stage", "is_lead_complete": is_lead_complete, "status": lead.status.serialize()}, status=200)
                 except PipelineStage.DoesNotExist:
                     return JsonResponse({"error": "Stage does not exist"}, status=200)
@@ -457,6 +735,7 @@ def complete_task(request, task_id):
                 s = LeadStatus.objects.get(name="Won")
                 lead.status = s
                 lead.save()
+                obj, created = Sale.objects.get_or_create(lead=lead)
 
             return JsonResponse({"success": "Task was successfully updated", "is_stage_complete": is_stage_complete, "is_lead_complete": is_lead_complete, "status": lead.status.serialize()}, status=200)
         except Task.DoesNotExist:

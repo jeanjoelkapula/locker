@@ -7,7 +7,8 @@ class Customer(models.Model):
     customer_name = models.CharField(max_length=255, null=False, blank=False)
     customer_phone = models.CharField(max_length=15, null=True, blank=True)
     customer_email = models.EmailField(max_length=254, null=True, blank=True)
-
+    sales_target = models.FloatField(null=True, blank=True, default=1000)
+    
     def __str__(self):
         return f"{self.customer_name}"
 
@@ -142,7 +143,7 @@ class LeadStatus(models.Model):
 class Lead(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     expected_close_date = models.DateField()
-    pipeline = models.ForeignKey(Pipeline, null=False, blank=False, on_delete=DO_NOTHING)
+    pipeline = models.ForeignKey(Pipeline, null=False, blank=False, on_delete=DO_NOTHING, related_name="leads")
     confidence = models.IntegerField()
     is_hot = models.BooleanField(default=False)
     source = models.ForeignKey(LeadSource, null=False, blank=False, related_name="leads", on_delete=DO_NOTHING)
@@ -182,6 +183,19 @@ class LeadProgress(models.Model):
                 t = TaskProgessLine(task=task)
                 t.save()
                 self.task_lines.add(t)
+
+    def __str__(self):
+        return f"{self.lead}"
+class LeadLoss(models.Model):
+    lead = models.ForeignKey(Lead, null=False, blank=False, on_delete=CASCADE, related_name="losses")
+    reason = models.TextField(max_length=255, null=False, blank=False)
+    date = models.DateField(auto_now_add=True)
+
+
+class Sale(models.Model):
+    lead = models.ForeignKey(Lead, null=False, blank=False, on_delete=CASCADE)
+    date = models.DateField(auto_now_add=True)
+    customer = models.ForeignKey(Customer, null=False, blank=False, related_name="sales", on_delete=CASCADE) 
 
     def __str__(self):
         return f"{self.lead}"

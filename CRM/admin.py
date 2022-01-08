@@ -17,5 +17,6 @@ admin.site.register(LeadStatus)
 admin.site.register(Lead)
 admin.site.register(TaskProgessLine)
 admin.site.register(LeadProgress)
+admin.site.register(Sale)
 
 

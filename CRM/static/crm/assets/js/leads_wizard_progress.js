@@ -152,10 +152,31 @@ function complete_task(element) {
     }
 }
 
+function save_status(element) {
+    $('#reason').val('');
+    $('#reason-error').hide();
+}
+
 function update_lead_status(element) {
+    reason = document.querySelector('#reason');
+    reason_error = document.querySelector('#reason-error');
     status_value = $('#status-selection').val();
 
-    json_data = JSON.stringify({'status': status_value});
+    if ($( "#status-selection option:selected" ).text() == "Lost") {
+        if (reason.value.trim() == '') {
+            reason_error.innerHTML = "Please the reason why this lead was lost";
+            $(reason_error).show();
+            $('#show-modal').click();
+            return false;
+        }
+        else{
+            json_data = JSON.stringify({'status': status_value, 'reason': reason.value});
+        }
+    }
+    else {
+        json_data = JSON.stringify({'status': status_value});
+    }
+
 
         const request = new Request(
             `/lead/${element.dataset.lead}/status`,
@@ -171,6 +192,11 @@ function update_lead_status(element) {
         .then(data => {
             if (data.error) {
                 console.log(data.error);
+                Swal.fire(
+                    'Lead Status Update',
+                    data.error,                
+                    'error'
+                );
             }
 
             if (data.success) {
@@ -217,8 +243,15 @@ function update_lead_status(element) {
                     $('input[type=checkbox]').attr('disabled', false);
                 }
                 
+                Swal.fire(
+                    'Lead Status Update',
+                    data.success,                
+                    'success'
+                );
             }
-            
+            $('#reason').val('');
+            $('#reason-error').hide();
+            $('.close').click();
         })
         .catch(error => {
             console.log( error);

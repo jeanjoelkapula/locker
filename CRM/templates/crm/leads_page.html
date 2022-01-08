@@ -5,6 +5,7 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/datatables/datatables.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/sweetalert2/sweetalert2.css' %}">
 {% endblock %}
 {% block body %}
 
@@ -220,6 +221,34 @@
     </div>
 </div>
 
+<button id="show-modal" class="btn btn-primary" data-toggle="modal" data-target="#modals-reason"  style="display: none;">save</button>
+ <!-- Modal template -->
+<div class="modal modal-top fade" id="modals-reason">
+    <div class="modal-dialog">
+        <form class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Reason 
+                    <br>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label class="form-label">Loss Reason</label>
+                        <input id="reason" type="text" class="form-control" placeholder="Why was this lead lost?">
+                        <span id="reason-error"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="save-status" data-lead="{{lead.id}}" onclick="update_lead_status(this);">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block script %}
@@ -227,6 +256,8 @@
     <script src="{% static 'crm/assets/vendor/libs/datatables/datatables.js' %}"></script>
     <script src="{% static 'crm/assets/js/tables_datatables.js' %}"></script>
     <script src="{% static 'crm/assets/js/leads_wizard_progress.js' %}"></script>
+    <script src="{% static 'crm/assets/vendor/libs/sweetalert2/sweetalert2.js' %}"></script>
+
     <script>
         lead = {{lead.serialize|safe}}
 
@@ -245,6 +276,13 @@
         if (lead_status) {
             lead_status.value = $('option[selected]').attr('value');
         }
+
+        $('#status-selection').on('change', ()=>{
+            
+            if ($( "#status-selection option:selected").text().trim() == "Lost") {
+                $('#show-modal').click();
+            }
+        });
         
   
     </script>
