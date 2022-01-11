@@ -12,14 +12,16 @@
     <div class="container-fluid flex-grow-1 container-p-y">
         
         <div style="display: flex; margin-bottom: 20px;">
-          <div>
-            <h4 class="font-weight-bold mb-4">
-              <span class="text-muted font-weight-light">Products /</span> List
-            </h4>
-          </div>
-          <div style="margin-left: auto;">
-            <button type="submit" class="btn btn-primary">Products</button>
-          </div>
+            <div>
+                <h4 class="font-weight-bold mb-4">
+                    <span class="text-muted font-weight-light">Products /</span> List
+                </h4>
+            </div>
+            <div style="margin-left: auto;">
+                <a href="{% url 'products_create' %}">
+                    <button type="submit" class="btn btn-primary">New Product</button>
+                </a>
+            </div>
         </div>
         <div class="card">
             <h6 class="card-header">

@@ -84,23 +84,27 @@
 			<!-- Brand demo (see assets/css/demo/demo.css) -->
 			<div class="app-brand demo">
 				<span class="app-brand-logo demo bg-primary">
-					<svg viewBox="0 0 148 80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-						<defs>
-							<linearGradient id="a" x1="46.49" x2="62.46" y1="53.39" y2="48.2" gradientUnits="userSpaceOnUse">
-								<stop stop-opacity=".25" offset="0"></stop>
-								<stop stop-opacity=".1" offset=".3"></stop>
-								<stop stop-opacity="0" offset=".9"></stop>
-							</linearGradient>
-							<linearGradient id="e" x1="76.9" x2="92.64" y1="26.38" y2="31.49" xlink:href="#a"></linearGradient>
-							<linearGradient id="d" x1="107.12" x2="122.74" y1="53.41" y2="48.33" xlink:href="#a"></linearGradient>
-						</defs>
-						<path style="fill: #fff;" transform="translate(-.1)" d="M121.36,0,104.42,45.08,88.71,3.28A5.09,5.09,0,0,0,83.93,0H64.27A5.09,5.09,0,0,0,59.5,3.28L43.79,45.08,26.85,0H.1L29.43,76.74A5.09,5.09,0,0,0,34.19,80H53.39a5.09,5.09,0,0,0,4.77-3.26L74.1,35l16,41.74A5.09,5.09,0,0,0,94.82,80h18.95a5.09,5.09,0,0,0,4.76-3.24L148.1,0Z"></path>
-						<path transform="translate(-.1)" d="M52.19,22.73l-8.4,22.35L56.51,78.94a5,5,0,0,0,1.64-2.19l7.34-19.2Z" fill="url(#a)"></path>
-						<path transform="translate(-.1)" d="M95.73,22l-7-18.69a5,5,0,0,0-1.64-2.21L74.1,35l8.33,21.79Z" fill="url(#e)"></path>
-						<path transform="translate(-.1)" d="M112.73,23l-8.31,22.12,12.66,33.7a5,5,0,0,0,1.45-2l7.3-18.93Z" fill="url(#d)"></path>
-					</svg>
+					<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="547.000000pt" height="329.000000pt" viewBox="0 0 547.000000 329.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,329.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path d="M2623 2839 c-32 -12 -23 4 -505 -834 -63 -110 -165 -286 -226 -392
+-113 -195 -126 -231 -76 -219 50 13 850 338 893 363 24 14 79 59 123 101 60
+57 87 93 116 151 36 72 37 79 37 180 -1 133 -9 154 -156 412 -137 240 -153
+258 -206 238z"/>
+<path d="M3075 2098 c-8 -23 -94 -570 -115 -733 -26 -202 -25 -252 5 -371 52
+-205 128 -300 286 -355 60 -21 81 -23 345 -23 264 -1 283 0 303 18 25 23 27
+56 5 99 -15 29 -441 769 -687 1192 -97 167 -130 207 -142 173z"/>
+<path d="M1850 1311 c-75 -24 -96 -36 -153 -90 -64 -59 -84 -90 -217 -322 -65
+-114 -110 -203 -110 -219 0 -15 9 -35 21 -46 20 -18 51 -19 839 -22 762 -2
+818 -1 824 15 8 20 26 4 -229 210 -377 304 -468 373 -551 413 -153 76 -309 98
+-424 61z"/>
+</g>
+</svg>
 				</span>
-				<a href="index.html" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Appwork</a>
+				<a href="{% url 'index' %}" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Locker </a>
 				<a href="javascript:void(0)" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
 				<i class="ion ion-md-menu align-middle"></i>
 				</a>
@@ -215,25 +219,30 @@
 			<!-- Layout navbar -->
 			<nav class="layout-navbar navbar navbar-expand-lg align-items-lg-center bg-white container-p-x" id="layout-navbar">
 				<!-- Brand demo (see assets/css/demo/demo.css) -->
-				<a href="index.html" class="navbar-brand app-brand demo d-lg-none py-0 mr-4">
+				<a href="{% url 'index' %}" class="navbar-brand app-brand demo d-lg-none py-0 mr-4">
 					<span class="app-brand-logo demo bg-primary">
-						<svg viewBox="0 0 148 80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-							<defs>
-								<linearGradient id="a" x1="46.49" x2="62.46" y1="53.39" y2="48.2" gradientUnits="userSpaceOnUse">
-									<stop stop-opacity=".25" offset="0"></stop>
-									<stop stop-opacity=".1" offset=".3"></stop>
-									<stop stop-opacity="0" offset=".9"></stop>
-								</linearGradient>
-								<linearGradient id="e" x1="76.9" x2="92.64" y1="26.38" y2="31.49" xlink:href="#a"></linearGradient>
-								<linearGradient id="d" x1="107.12" x2="122.74" y1="53.41" y2="48.33" xlink:href="#a"></linearGradient>
-							</defs>
-							<path style="fill: #fff;" transform="translate(-.1)" d="M121.36,0,104.42,45.08,88.71,3.28A5.09,5.09,0,0,0,83.93,0H64.27A5.09,5.09,0,0,0,59.5,3.28L43.79,45.08,26.85,0H.1L29.43,76.74A5.09,5.09,0,0,0,34.19,80H53.39a5.09,5.09,0,0,0,4.77-3.26L74.1,35l16,41.74A5.09,5.09,0,0,0,94.82,80h18.95a5.09,5.09,0,0,0,4.76-3.24L148.1,0Z"></path>
-							<path transform="translate(-.1)" d="M52.19,22.73l-8.4,22.35L56.51,78.94a5,5,0,0,0,1.64-2.19l7.34-19.2Z" fill="url(#a)"></path>
-							<path transform="translate(-.1)" d="M95.73,22l-7-18.69a5,5,0,0,0-1.64-2.21L74.1,35l8.33,21.79Z" fill="url(#e)"></path>
-							<path transform="translate(-.1)" d="M112.73,23l-8.31,22.12,12.66,33.7a5,5,0,0,0,1.45-2l7.3-18.93Z" fill="url(#d)"></path>
-						</svg>
+						
+                        <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                        width="547.000000pt" height="329.000000pt" viewBox="0 0 547.000000 329.000000"
+                        preserveAspectRatio="xMidYMid meet">
+
+                            <g transform="translate(0.000000,329.000000) scale(0.100000,-0.100000)"
+                            fill="#000000" stroke="none">
+                                <path d="M2623 2839 c-32 -12 -23 4 -505 -834 -63 -110 -165 -286 -226 -392
+                                -113 -195 -126 -231 -76 -219 50 13 850 338 893 363 24 14 79 59 123 101 60
+                                57 87 93 116 151 36 72 37 79 37 180 -1 133 -9 154 -156 412 -137 240 -153
+                                258 -206 238z"/>
+                                <path d="M3075 2098 c-8 -23 -94 -570 -115 -733 -26 -202 -25 -252 5 -371 52
+                                -205 128 -300 286 -355 60 -21 81 -23 345 -23 264 -1 283 0 303 18 25 23 27
+                                56 5 99 -15 29 -441 769 -687 1192 -97 167 -130 207 -142 173z"/>
+                                <path d="M1850 1311 c-75 -24 -96 -36 -153 -90 -64 -59 -84 -90 -217 -322 -65
+                                -114 -110 -203 -110 -219 0 -15 9 -35 21 -46 20 -18 51 -19 839 -22 762 -2
+                                818 -1 824 15 8 20 26 4 -229 210 -377 304 -468 373 -551 413 -153 76 -309 98
+                                -424 61z"/>
+                            </g>
+                        </svg>
 					</span>
-					<span class="app-brand-text demo font-weight-normal ml-2">Appwork</span>
+					<span class="app-brand-text demo font-weight-normal ml-2">Locker</span>
 				</a>
 				<!-- Sidenav toggle (see assets/css/demo/demo.css) -->
 				<div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-auto">
@@ -273,7 +282,7 @@
 				<div class="container-fluid flex-grow-1 container-p-y">
                     
                     {% block body %} 
-
+                        
 
                     {% endblock %}
                 </div>

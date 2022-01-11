@@ -78,11 +78,11 @@
 								{% csrf_token %}
 						  <div class="form-group">
 							<label class="form-label" for="username">Username</label>
-							  <input id="username" name="username" type="text" class="form-control rounded-left" placeholder="Username" required>
+							  <input id="username" name="username" type="text" class="form-control rounded-left" required>
 						  </div>
 					<div class="form-group">
 						<label class="form-label" for="password">Password</label>
-					  	<input id="password" name="password" type="password" class="form-control rounded-left" placeholder="Password" required>
+					  	<input id="password" name="password" type="password" class="form-control rounded-left" required>
 					</div>
 					{% if message %}
 						<div>{{ message }}</div>

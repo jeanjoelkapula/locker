@@ -110,6 +110,9 @@ def index(request):
         'borderWidth': 0
     }]
 
+    date_object = datetime.strptime(str((datetime.now().month)), "%m")
+    full_month_name = datetime_object.strftime("%B")
+    date_today = f"Today is, {datetime.now().day} {full_month_name} {datetime.now().year}"
     context = {
         'sales_count': sales_count,
         'products_count': len(Product.objects.filter(customer=request.user.customer)),
@@ -128,7 +131,8 @@ def index(request):
         'stage_lead_counts': stage_lead_counts,
         'doughnut_chart_data': doughnut_chart_data,
         'current_month_sales_value': current_month_sales_value,
-        'doughtnut_progress': doughtnut_progress
+        'doughtnut_progress': doughtnut_progress,
+        'date_today': date_today
     }
 
     return render(request, "crm/index.html", context)

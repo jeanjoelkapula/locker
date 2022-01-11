@@ -10,9 +10,18 @@
 <div class="layout-content">
     <!-- Content -->
     <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="font-weight-bold py-3 mb-4">
-            <span class="text-muted font-weight-light">Leads /</span> List
-        </h4>
+        <div style="display: flex; margin-bottom: 20px;">
+            <div>
+                <h4 class="font-weight-bold mb-4">
+                    <span class="text-muted font-weight-light">Leads /</span> List
+                </h4>
+            </div>
+            <div style="margin-left: auto;">
+                <a href="{% url 'leads_create' %}">
+                    <button type="submit" class="btn btn-primary">New Lead</button>
+                </a>
+            </div>
+        </div>
         <div class="card">
             <h6 class="card-header">
               DataTable within card
