@@ -19,10 +19,12 @@ def index(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('login'))
 
+    #total sales count
     sales_count = 0
     for sale in Sale.objects.filter(date__month=datetime.now().month, customer = request.user.customer):
         sales_count += sale.lead.value()
     
+    #total sales income
     total_sales = Sale.objects.filter(customer = request.user.customer)
     total_sales_income = 0
     total_sales_count = len(total_sales)
@@ -30,12 +32,9 @@ def index(request):
     for sale in total_sales:
         total_sales_income += sale.lead.value()
     
+    #total sales loss
     sales_lost = Lead.objects.filter(customer=request.user.customer, status__name='Lost')
     total_sales_loss = 0
-    start_index = 1
-    last_sale_date = total_sales.last().date
-
-    start_index = datetime.now().month - 8
     month_sales = []
     month_losses = []
     labels = []
@@ -47,11 +46,12 @@ def index(request):
         month_losses.append(len(LeadLoss.objects.filter(date__month=prev.month)))
         labels.append(f"{month_name} - {prev.year}")
         prev = prev.replace(day=1) - timedelta(days=1)
-        
-        #month_losses = Lead.objects.filter(customer = request.user.customer, )
+    #invert list orders   
     labels.reverse()
     month_losses.reverse()
     month_sales.reverse()
+
+    #stat chart
     stat_chart_data = {
         'labels': labels,
         'datasets': [
@@ -76,8 +76,10 @@ def index(request):
     for lead in sales_lost:
         total_sales_loss += lead.value()
     
+    #hot leads
     hot_leads = Lead.objects.filter(customer=request.user.customer, is_hot=True).order_by('-expected_close_date')
 
+    #leads pie chart
     leads_pie_chart_data =  {
       'labels': ['Lost Leads', 'Open Leads', 'Leads Won'],
       'datasets': [{
@@ -88,15 +90,19 @@ def index(request):
       }]
     }
 
+    #pipeline lead count per stage
     pipeline = Pipeline.objects.filter(customer=request.user.customer).last()
 
     stage_lead_counts = util.get_stage_stats(pipeline)
 
+    #current month sales
     current_month_sales = Sale.objects.filter(date__month=datetime.now().month)
     current_month_sales_value = 0
     for sale in current_month_sales:
         current_month_sales_value += sale.lead.value()
     
+    #doughnut chart 
+    #current month sales to target month sales
     doughtnut_progress = (current_month_sales_value * 100) / request.user.customer.sales_target
     if (100 - doughtnut_progress) > 0:
         doughnut_remainder = 100 - doughtnut_progress
@@ -110,8 +116,9 @@ def index(request):
         'borderWidth': 0
     }]
 
+    #today date
     date_object = datetime.strptime(str((datetime.now().month)), "%m")
-    full_month_name = datetime_object.strftime("%B")
+    full_month_name = date_object.strftime("%B")
     date_today = f"Today is, {datetime.now().day} {full_month_name} {datetime.now().year}"
     context = {
         'sales_count': sales_count,
@@ -211,6 +218,7 @@ def company_edit(request, company_id):
 
     except Company.DoesNotExist:
         return HttpResponse("Page not found")
+
 def people_create(request):
     if request.method == "POST":
         form = CompanyMemberForm(request.POST)
@@ -235,6 +243,39 @@ def people_list(request):
         'members': CompanyMember.objects.filter(company__customer=request.user.customer)
     }
     return render(request, "crm/people_list.html", context)
+
+def people_edit(request, person_id):
+    try:
+        person = CompanyMember.objects.get(pk=person_id)
+        
+        if request.method == "POST":
+            person_form = CompanyMemberFormEdit(request.POST, instance=person)
+
+            if person_form.is_valid():
+                person_form.save()
+
+                return HttpResponseRedirect(reverse('people_edit', args=(person.id,)))
+            else:   
+                print(person_form.errors)
+                context = {
+                    'form': person_form,
+                    'person': person
+                }
+
+            return render(request, "crm/people_edit.html", context) 
+        else:
+            person_form = CompanyMemberFormEdit(instance=person)
+
+            context = {
+                'form': person_form,
+                'person': person
+            }
+
+            return render(request, "crm/people_edit.html", context) 
+
+
+    except CompanyMember.DoesNotExist:
+        return HttpResponse("Page not found")
 
 def pipeline_create(request):
     return render(request, 'crm/pipeline_create.html')
@@ -391,6 +432,35 @@ def products_list(request):
             'products': products
         }
         return render(request, "crm/products_list.html", context)
+def products_edit(request, product_id):
+    try:
+        product = Product.objects.get(pk=product_id)
+        if request.method == "POST":
+            product_form = ProductFormEdit(request.POST, instance=product)
+
+            if product_form.is_valid():
+                product_form.save()
+
+                return HttpResponseRedirect(reverse('products_edit', args=(product.id,)))
+            else:
+                print(product_form.errors)
+                context = {
+                    'form': product_form,
+                    'product': product
+                }
+
+                return render(request, 'crm/products_edit.html', context)
+        else:
+            product_form = ProductFormEdit(instance=product)
+
+            context = {
+                'form': product_form,
+                'product': product
+            }
+
+            return render(request, 'crm/products_edit.html', context)
+    except Product.DoesNotExist:
+        return HttpResponse('Page not found')
 
 def settings(request):  
     context={

@@ -1,0 +1,83 @@
+
+
+{% extends "crm/layout.html" %}
+{% load static %}
+{% block stylesheet %}
+{% endblock %}
+{% block body %}
+<div class="layout-content">
+	<!-- Content -->
+	<div class="container-fluid flex-grow-1 container-p-y">
+		<h4 class="font-weight-bold py-3 mb-4">
+			<span class="text-muted font-weight-light">Products /</span> Edit
+		</h4>
+		<div class="card mb-4">
+			<h6 class="card-header">
+				{{product.name}}
+			</h6>
+			<div class="card-body">
+				<form action="{% url 'products_edit' product.id %}" method="post" >
+                    {% csrf_token %}
+					<div class="form-group row">
+						<label class="col-form-label col-sm-2 text-sm-right">{{form.name.label}}</label>
+						<div class="col-sm-10">
+							{{form.name}}
+
+              {% if form.name.errors %}
+                <ul>
+                    {% for error in form.name.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+              {% endif %}
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-sm-2 text-sm-right">{{form.price.label}}</label>
+						<div class="col-sm-10">
+              {{form.price}}
+
+              {% if form.price.errors %}
+                <ul>
+                    {% for error in form.price.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+              {% endif %}
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-10 ml-sm-auto">
+							<button type="submit" class="btn btn-primary">Save</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'crm/assets/js/demo.js' %}"></script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    if(document.querySelector('#id_is_service').checked) {
+      $('#form-unit').show();
+    }
+    else {
+      $('#form-unit').hide();
+    }
+  });
+
+  $('#id_is_service').on('click', (evt)=> {
+    if (evt.target.checked) {
+      $('#form-unit').show();
+    }
+    else {
+      $('#form-unit').hide();
+    }
+  });
+</script>
+{% endblock %}
+

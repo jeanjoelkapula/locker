@@ -90,6 +90,24 @@ class CompanyMemberForm(forms.ModelForm):
             'phone': _('Phone number'),
             'company': _('Company'),
         }
+
+class CompanyMemberFormEdit(forms.ModelForm):
+    class Meta:
+        model = CompanyMember
+        exclude = ['company']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder':'First name', 'required': True}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder':'Last name', 'required': True}),
+            'email': forms.EmailInput(attrs={'class': 'form-control rounded-left', 'placeholder':'Email', 'required': False}),
+            'phone': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder': 'Phone number'}),
+        }
+        labels = {
+            'first_name': _('First name'),
+            'last_name': _('Last name'),
+            'email': _('Email'),
+            'phone': _('Phone number'),
+        }
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
@@ -108,10 +126,20 @@ class ProductForm(forms.ModelForm):
             'price': _('Product price'),
         }
 
-        
-    def __init__(self, *args, **kwargs):
-        super(ProductForm, self).__init__(*args, **kwargs)
-        self.fields['unit'].empty_label = None
+
+class ProductFormEdit(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'price']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control rounded-left', 'placeholder':'Product name', 'required': True}),
+            'price': forms.NumberInput(attrs={'class':'form-control'}),
+
+        }
+        labels = {
+            'name': _('Product name'),
+            'price': _('Product price'),
+        }
 
 class LeadForm(forms.ModelForm):
     class Meta:
