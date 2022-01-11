@@ -180,6 +180,37 @@ def company_list(request):
 
     return render(request, "crm/company_list.html", context)
 
+def company_edit(request, company_id):
+    try:
+        company = Company.objects.get(pk=company_id)
+        
+        if request.method == "POST":
+            company_form = CompanyForm(request.POST, instance=company)
+
+            if company_form.is_valid():
+                company_form.save()
+
+                return HttpResponseRedirect(reverse('company_edit', args=(company.id,)))
+            else:
+                context = {
+                'form': company_form,
+                'company': company
+            }
+
+            return render(request, "crm/company_edit.html", context) 
+        else:
+            company_form = CompanyForm(instance=company)
+
+            context = {
+                'form': company_form,
+                'company': company
+            }
+
+            return render(request, "crm/company_edit.html", context) 
+
+
+    except Company.DoesNotExist:
+        return HttpResponse("Page not found")
 def people_create(request):
     if request.method == "POST":
         form = CompanyMemberForm(request.POST)

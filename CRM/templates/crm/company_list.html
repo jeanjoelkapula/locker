@@ -36,6 +36,7 @@
                     <th>Phone</th>
                     <th>Address</th>
                     <th>URL</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -56,18 +57,25 @@
                         {% endif %}
                         
                       </td>
-                      <td class="center"> 
+                    <td class="center"> 
                         {% if company.company_address %}
-                          {{company.company_address}}
+                            {{company.company_address}}
                         {% endif %}
-                        
-                      </td>
-                      <td class="center">
+                    
+                    </td>
+                    <td class="center">
                         {% if company.company_URL %}
-                         {{company.company_URL}}
+                            {{company.company_URL}}
                         {% endif %}
-                        
-                      </td>
+                    
+                    </td>
+                    <td>
+                        <a href="{% url 'company_edit' company.id %}">
+                            <button class="btn btn-default">
+                                <i class="far fa-edit d-block"></i>
+                            </button>
+                        </a>
+                    </td>
                     </tr>
                   {% endfor %}
                 </tbody>
