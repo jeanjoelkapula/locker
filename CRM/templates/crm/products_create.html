@@ -2,14 +2,12 @@
 
 {% extends "crm/layout.html" %}
 {% load static %}
-{% block stylesheet %}
-{% endblock %}
 {% block body %}
 <div class="layout-content">
 	<!-- Content -->
 	<div class="container-fluid flex-grow-1 container-p-y">
 		<h4 class="font-weight-bold py-3 mb-4">
-			<span class="text-muted font-weight-light">Companies /</span> Create
+			<span class="text-muted font-weight-light">Products /</span> Create
 		</h4>
 		<div class="card mb-4">
 			<h6 class="card-header">
@@ -17,50 +15,50 @@
 			</h6>
 			<div class="card-body">
 				<form action="{% url 'products_create' %}" method="post" >
-          {% csrf_token %}
+                     {% csrf_token %}
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2 text-sm-right">{{form.name.label}}</label>
 						<div class="col-sm-10">
 							{{form.name}}
 
-              {% if form.name.errors %}
-                <ul>
-                    {% for error in form.name.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-              {% endif %}
+                            {% if form.name.errors %}
+                                <ul>
+                                    {% for error in form.name.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2 text-sm-right">{{form.price.label}}</label>
 						<div class="col-sm-10">
-              {{form.price}}
+                            {{form.price}}
 
-              {% if form.price.errors %}
-                <ul>
-                    {% for error in form.price.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-              {% endif %}
+                            {% if form.price.errors %}
+                                <ul>
+                                    {% for error in form.price.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
 						</div>
 					</div>
-          <div class="form-group row">
-            <label class="col-form-label col-sm-2 text-sm-right pt-sm-0">{{ form.is_service.label }}</label>
-            <div class="col-sm-10">
-              <label class="custom-control custom-checkbox m-0">
-                {{form.is_service}}
-                <span class="custom-control-label">Is this product a service?</span>
-              </label>
-            </div>
-          </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2 text-sm-right pt-sm-0">{{ form.is_service.label }}</label>
+                        <div class="col-sm-10">
+                            <label class="custom-control custom-checkbox m-0">
+                                {{form.is_service}}
+                                <span class="custom-control-label">Is this product a service?</span>
+                            </label>
+                        </div>
+                    </div>
 					<div class="form-group row" id="form-unit" style="display: none;">
 						<label class="col-form-label col-sm-2 text-sm-right">{{form.unit.label}}</label>
 						<div class="col-sm-10">
-              {{form.unit}}
+                             {{form.unit}}
 						</div>
-            </div>
+                    </div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-10 ml-sm-auto">

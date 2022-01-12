@@ -3,7 +3,7 @@
 {% extends "crm/layout.html" %}
 {% load static %}
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/datatables/datatables.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/datatables/datatables.css' %}">
 {% endblock %}
 {% block body %}
 <!-- Layout content -->
@@ -262,17 +262,17 @@
 <!-- Layout content -->
 {% endblock %}
 {% block script %}
-<script src="{% static 'crm/assets/vendor/libs/chartjs/chartjs.js' %}"></script>
-<script src="{% static 'crm/assets/js/demo.js' %}"></script>
-<script src="{% static 'crm/assets/js/dashboards_dashboard-1.js' %}"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="{% static 'crm/assets/vendor/libs/datatables/datatables.js' %}"></script>
-<script src="{% static 'crm/assets/js/tables_datatables.js' %}"></script>
-<script>
-	var stat_chart_data = {{stat_chart_data|safe}};
-	var leads_pie_chart_data = {{leads_pie_chart_data|safe}}
-	var doughnut_chart_data = {{doughnut_chart_data|safe}}
-	
-</script>
+    <script src="{% static 'crm/assets/vendor/libs/chartjs/chartjs.js' %}"></script>
+    <script src="{% static 'crm/assets/js/demo.js' %}"></script>
+    <script src="{% static 'crm/assets/js/dashboards_dashboard-1.js' %}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'crm/assets/vendor/libs/datatables/datatables.js' %}"></script>
+    <script src="{% static 'crm/assets/js/tables_datatables.js' %}"></script>
+    <script>
+        var stat_chart_data = {{stat_chart_data|safe}};
+        var leads_pie_chart_data = {{leads_pie_chart_data|safe}}
+        var doughnut_chart_data = {{doughnut_chart_data|safe}}
+        
+    </script>
 {% endblock %}
 

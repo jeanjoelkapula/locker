@@ -12,76 +12,76 @@
     <div class="container-fluid flex-grow-1 container-p-y">
         
         <div style="display: flex; margin-bottom: 20px;">
-          <div>
-            <h4 class="font-weight-bold mb-4">
-              <span class="text-muted font-weight-light">Companies /</span> List
-            </h4>
-          </div>
-          <div style="margin-left: auto;">
-            <a href="{% url 'company_create' %}">
-                <button type="submit" class="btn btn-primary">New Company</button>
-            </a>
-          </div>
+            <div>
+                <h4 class="font-weight-bold mb-4">
+                <span class="text-muted font-weight-light">Companies /</span> List
+                </h4>
+            </div>
+            <div style="margin-left: auto;">
+                <a href="{% url 'company_create' %}">
+                    <button type="submit" class="btn btn-primary">New Company</button>
+                </a>
+            </div>
         </div>
         <div class="card">
             <h6 class="card-header">
               DataTable within card
             </h6>
             <div class="card-datatable table-responsive">
-              <table class="datatables-demo table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th>Company Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>URL</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for company in companies %}
-                    <tr class="odd gradeX">
-                      <td>
-                       
-                        {{company.company_name}}
-                      </td>
-                      <td>
-                        {% if company.company_email %}
-                          {{company.company_email}}
-                        {% endif %}
-                      </td>
-                      <td>
-                        {% if company.company_phone %}
-                         {{company.company_phone}}
-                        {% endif %}
-                        
-                      </td>
-                    <td class="center"> 
-                        {% if company.company_address %}
-                            {{company.company_address}}
-                        {% endif %}
-                    
-                    </td>
-                    <td class="center">
-                        {% if company.company_URL %}
-                            {{company.company_URL}}
-                        {% endif %}
-                    
-                    </td>
-                    <td>
-                        <a href="{% url 'company_edit' company.id %}">
-                            <button class="btn btn-default">
-                                <i class="far fa-edit d-block"></i>
-                            </button>
-                        </a>
-                    </td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+                <table class="datatables-demo table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>URL</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for company in companies %}
+                            <tr class="odd gradeX">
+                                <td>
+                                
+                                    {{company.company_name}}
+                                </td>
+                                <td>
+                                    {% if company.company_email %}
+                                    {{company.company_email}}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if company.company_phone %}
+                                    {{company.company_phone}}
+                                    {% endif %}
+                                    
+                                </td>
+                                <td class="center"> 
+                                    {% if company.company_address %}
+                                        {{company.company_address}}
+                                    {% endif %}
+                                
+                                </td>
+                                <td class="center">
+                                    {% if company.company_URL %}
+                                        {{company.company_URL}}
+                                    {% endif %}
+                                
+                                </td>
+                                <td>
+                                    <a href="{% url 'company_edit' company.id %}">
+                                        <button class="btn btn-default">
+                                            <i class="far fa-edit d-block"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                  </tbody>
+                </table>
             </div>
-          </div>
+        </div>
     </div>
 </div>
 

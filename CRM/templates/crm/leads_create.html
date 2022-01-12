@@ -3,133 +3,131 @@
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/datatables/datatables.css' %}">
     <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/bootstrap-slider/bootstrap-slider.css' %}">
     <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/select2/select2.css' %}">
     <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/sweetalert2/sweetalert2.css' %}">
 {% endblock %}
 {% block body %}
 
-<div class="layout-content">
-    <!-- Content -->
-    <div class="container-fluid flex-grow-1 container-p-y">
-        <h4 class="font-weight-bold py-3 mb-4">
-            <span class="text-muted font-weight-light">Leads /</span> Create
-        </h4>
-        <div class="card mb-4">
-            <h6 class="card-header">
-              New Lead
-            </h6>
-            <div class="card-body">
-              <form>
-                <div class="form-group row">
-                  <label class="col-form-label col-sm-2 text-sm-right">Lead Name</label>
-                  <div class="col-sm-10">
-                    <input id="lead-name" type="text" class="form-control" placeholder="Lead Name">
-                    <span id="lead-name-error" class="my-3" style="display: none;">Please enter a lead name</span>
-                  </div>
+    <div class="layout-content">
+        <!-- Content -->
+        <div class="container-fluid flex-grow-1 container-p-y">
+            <h4 class="font-weight-bold py-3 mb-4">
+                <span class="text-muted font-weight-light">Leads /</span> Create
+            </h4>
+            <div class="card mb-4">
+                <h6 class="card-header">
+                New Lead
+                </h6>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2 text-sm-right">Lead Name</label>
+                            <div class="col-sm-10">
+                                <input id="lead-name" type="text" class="form-control" placeholder="Lead Name">
+                                <span id="lead-name-error" class="my-3" style="display: none;">Please enter a lead name</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2 text-sm-right">Expected Closed Date</label>
+                            <div class="col-sm-10">
+                                <input id="closed-date" type="text" class="form-control" placeholder="Expected Closed Date">
+                                <span id="date-error" class="my-3" style="display: none;">Please enter the expected closed date</span>
+                            </div>
+                        </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2 text-sm-right">Products</label>
+                        <div class="col-sm-6">
+                            <select class="custom-select" id="product-selection">
+                            <option value=""></option>
+                            {% for product in products %}
+                                <option value="{{product.id}}">{{product.name}}</option>
+                            {% endfor %}
+                            </select>   
+                        </div>
+                        <div class="col-sm-2 d-flex">
+                            <label class="form-label mr-sm-2" style="padding-top: 7px;">Qty:</label>
+                            <input id="product-quantity" type="number" class="form-control">
+                        </div>
+                        <div class="col-sm-2">
+                            <button id="add-product" type="button" class="btn btn-default" onclick="add_product();">
+                                <i class="fas fa-plus d-block"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2 text-sm-right"></label>
+                        <div id="products-container" class="products-container col-sm-10"> 
+                        
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2 text-sm-right">Pipeline</label>
+                        <div class="col-sm-10">
+                            <select class="custom-select" id="pipeline-selection">
+                            {% for pipeline in pipelines %}
+                                <option value="{{pipeline.id}}">{{pipeline.name}}</option>
+                            {% endfor %}
+                            </select>                  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2 text-sm-right">Confidence Level</label>
+                        <div class="col-sm-10">
+                            <div class="slider-primary">
+                                <input id="confidence" class="bs-slider-variant" type="text" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="14" style="display: none;" data-value="9" value="9">
+                            </div>   
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                    <label class="col-form-label col-sm-2 text-sm-right pt-sm-0">Priority</label>
+                        <div class="col-sm-10">
+                            <label class="custom-control custom-checkbox m-0">
+                                <input id="is-lead-hot" type="checkbox" class="custom-control-input">
+                                <span class="custom-control-label">This lead is hot</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2 text-sm-right">Company</label>
+                        <div class="col-sm-10">
+                            <select class="custom-select" id="company-selection">
+                                {% for company in companies %}
+                                    <option value="{{company.id}}">{{company.company_name}}</option>
+                                {% endfor %}
+                            </select>                  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2 text-sm-right">Add Person</label>
+                        <div class="col-sm-10">
+                            <select class="custom-select" id="person-selection" name="people[]" multiple>
+                                {% for person in people %}
+                                    <option value="{{person.id}}">{{person.first_name}} &nbsp; {{person.last_name}}</option>
+                                {% endfor %}
+                            </select>       
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2 text-sm-right">Source</label>
+                        <div class="col-sm-10">
+                            <select class="custom-select" id="source-selection">
+                                {% for source in sources %}
+                                    <option value="{{source.id}}">{{source.name}}</option>
+                                {% endfor %}
+                            </select>               
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10 ml-sm-auto">
+                            <button id="save-lead" type="button" class="btn btn-primary" onclick="save_lead();">Create</button>
+                        </div>
+                    </div>
+                    </form>
                 </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-sm-2 text-sm-right">Expected Closed Date</label>
-                  <div class="col-sm-10">
-                    <input id="closed-date" type="text" class="form-control" placeholder="Expected Closed Date">
-                    <span id="date-error" class="my-3" style="display: none;">Please enter the expected closed date</span>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-sm-2 text-sm-right">Products</label>
-                  <div class="col-sm-6">
-                    <select class="custom-select" id="product-selection">
-                      <option value=""></option>
-                      {% for product in products %}
-                        <option value="{{product.id}}">{{product.name}}</option>
-                      {% endfor %}
-                    </select>   
-                  </div>
-                  <div class="col-sm-2 d-flex">
-                    
-                    <label class="form-label mr-sm-2" style="padding-top: 7px;">Qty:</label>
-                    <input id="product-quantity" type="number" class="form-control">
-                  </div>
-                  <div class="col-sm-2">
-                    <button id="add-product" type="button" class="btn btn-default" onclick="add_product();">
-                      <i class="fas fa-plus d-block"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-sm-2 text-sm-right"></label>
-                  <div id="products-container" class="products-container col-sm-10"> 
-                   
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-sm-2 text-sm-right">Pipeline</label>
-                  <div class="col-sm-10">
-                    <select class="custom-select" id="pipeline-selection">
-                      {% for pipeline in pipelines %}
-                        <option value="{{pipeline.id}}">{{pipeline.name}}</option>
-                      {% endfor %}
-                    </select>                  
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-sm-2 text-sm-right">Confidence Level</label>
-                  <div class="col-sm-10">
-                    <div class="slider-primary">
-                      <input id="confidence" class="bs-slider-variant" type="text" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="14" style="display: none;" data-value="9" value="9">
-                    </div>                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-sm-2 text-sm-right pt-sm-0">Priority</label>
-                  <div class="col-sm-10">
-                    <label class="custom-control custom-checkbox m-0">
-                      <input id="is-lead-hot" type="checkbox" class="custom-control-input">
-                      <span class="custom-control-label">This lead is hot</span>
-                    </label>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-sm-2 text-sm-right">Company</label>
-                  <div class="col-sm-10">
-                    <select class="custom-select" id="company-selection">
-                      {% for company in companies %}
-                        <option value="{{company.id}}">{{company.company_name}}</option>
-                      {% endfor %}
-                    </select>                  
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-sm-2 text-sm-right">Add Person</label>
-                  <div class="col-sm-10">
-                    <select class="custom-select" id="person-selection" name="people[]" multiple>
-                      {% for person in people %}
-                        <option value="{{person.id}}">{{person.first_name}} &nbsp; {{person.last_name}}</option>
-                      {% endfor %}
-                    </select>       
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-form-label col-sm-2 text-sm-right">Source</label>
-                  <div class="col-sm-10">
-                    <select class="custom-select" id="source-selection">
-                      {% for source in sources %}
-                        <option value="{{source.id}}">{{source.name}}</option>
-                      {% endfor %}
-                    </select>               
-                  </div>
-                </div>
-          
-                <div class="form-group row">
-                  <div class="col-sm-10 ml-sm-auto">
-                    <button id="save-lead" type="button" class="btn btn-primary" onclick="save_lead();">Create</button>
-                  </div>
-                </div>
-              </form>
             </div>
-          </div>
-     </div>
-</div>
+        </div>
+    </div>
 
 {% endblock %}
 

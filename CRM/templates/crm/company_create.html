@@ -2,9 +2,7 @@
 
 {% extends "crm/layout.html" %}
 {% load static %}
-{% block stylesheet %}
-<link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/datatables/datatables.css' %}">
-{% endblock %}
+
 {% block body %}
 <div class="layout-content">
 	<!-- Content -->
@@ -18,91 +16,91 @@
 			</h6>
 			<div class="card-body">
 				<form action="{% url 'company_create' %}" method="post" >
-          {% csrf_token %}
+                    {% csrf_token %}
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2 text-sm-right">Company Name</label>
-						<div class="col-sm-10">
+                        <div class="col-sm-10">
 							{{form.company_name}}
 
-              {% if form.company_name.errors %}
-                <ul>
-                    {% for error in form.company_name.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-              {% endif %}
+                            {% if form.company_name.errors %}
+                                <ul>
+                                    {% for error in form.company_name.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2 text-sm-right">Description</label>
 						<div class="col-sm-10">
-              {{form.company_description}}
+                            {{form.company_description}}
 
-              {% if form.company_name.errors %}
-                <ul>
-                    {% for error in form.company_name.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-              {% endif %}
+                            {% if form.company_name.errors %}
+                                <ul>
+                                    {% for error in form.company_name.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2 text-sm-right">Email</label>
 						<div class="col-sm-10">
-              {{form.company_email}}
+                            {{form.company_email}}
 
-              {% if form.company_email.errors %}
-                <ul>
-                    {% for error in form.company_email.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-              {% endif %}
+                            {% if form.company_email.errors %}
+                                <ul>
+                                    {% for error in form.company_email.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2 text-sm-right">Phone</label>
 						<div class="col-sm-10">
-              {{form.company_phone}}
+                            {{form.company_phone}}
 
-              {% if form.company_phone.errors %}
-                <ul>
-                    {% for error in form.company_phone.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-              {% endif %}
+                            {% if form.company_phone.errors %}
+                                <ul>
+                                    {% for error in form.company_phone.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
 						</div>
-            </div>
-            <div class="form-group row">
-              <label class="col-form-label col-sm-2 text-sm-right">Address</label>
-              <div class="col-sm-10">
-                {{form.company_address}}
-  
-                {% if form.company_address.errors %}
-                  <ul>
-                      {% for error in form.company_address.errors %}
-                          <li>{{ error }}</li>
-                      {% endfor %}
-                  </ul>
-                {% endif %}
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-form-label col-sm-2 text-sm-right">URL</label>
-              <div class="col-sm-10">
-                {{form.company_URL}}
-  
-                {% if form.company_URL.errors %}
-                <ul>
-                    {% for error in form.company_URL.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-              {% endif %}
-              </div>
-            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2 text-sm-right">Address</label>
+                        <div class="col-sm-10">
+                            {{form.company_address}}
+            
+                            {% if form.company_address.errors %}
+                                <ul>
+                                    {% for error in form.company_address.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2 text-sm-right">URL</label>
+                        <div class="col-sm-10">
+                            {{form.company_URL}}
+            
+                            {% if form.company_URL.errors %}
+                                <ul>
+                                    {% for error in form.company_URL.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        </div>
 					</div>
 
 					<div class="form-group row">
@@ -117,8 +115,6 @@
 </div>
 {% endblock %}
 {% block script %}
-<script src="{% static 'crm/assets/js/demo.js' %}"></script>
-<script src="{% static 'crm/assets/vendor/libs/datatables/datatables.js' %}"></script>
-<script src="{% static 'crm/assets/js/tables_datatables.js' %}"></script>
+    <script src="{% static 'crm/assets/js/demo.js' %}"></script>
 {% endblock %}
 

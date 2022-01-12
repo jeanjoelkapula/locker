@@ -71,231 +71,229 @@
 		<link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css' %}">
     </head>
     <body>
-        
+        <div class="page-loader">
+            <div class="bg-primary"></div>
+        </div>
+        <!-- Layout wrapper -->
+        <div class="layout-wrapper layout-2">
+            <div class="layout-inner">
+                <!-- Layout sidenav -->
+                <div id="layout-sidenav" class="layout-sidenav sidenav sidenav-vertical bg-dark">
+                    <!-- Brand demo (see assets/css/demo/demo.css) -->
+                    <div class="app-brand demo">
+                        <span class="app-brand-logo demo bg-primary">
+                            <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                                width="547.000000pt" height="329.000000pt" viewBox="0 0 547.000000 329.000000"
+                                preserveAspectRatio="xMidYMid meet">
 
-<div class="page-loader">
-	<div class="bg-primary"></div>
-</div>
-<!-- Layout wrapper -->
-<div class="layout-wrapper layout-2">
-	<div class="layout-inner">
-		<!-- Layout sidenav -->
-		<div id="layout-sidenav" class="layout-sidenav sidenav sidenav-vertical bg-dark">
-			<!-- Brand demo (see assets/css/demo/demo.css) -->
-			<div class="app-brand demo">
-				<span class="app-brand-logo demo bg-primary">
-					<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="547.000000pt" height="329.000000pt" viewBox="0 0 547.000000 329.000000"
- preserveAspectRatio="xMidYMid meet">
-
-<g transform="translate(0.000000,329.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
-<path d="M2623 2839 c-32 -12 -23 4 -505 -834 -63 -110 -165 -286 -226 -392
--113 -195 -126 -231 -76 -219 50 13 850 338 893 363 24 14 79 59 123 101 60
-57 87 93 116 151 36 72 37 79 37 180 -1 133 -9 154 -156 412 -137 240 -153
-258 -206 238z"/>
-<path d="M3075 2098 c-8 -23 -94 -570 -115 -733 -26 -202 -25 -252 5 -371 52
--205 128 -300 286 -355 60 -21 81 -23 345 -23 264 -1 283 0 303 18 25 23 27
-56 5 99 -15 29 -441 769 -687 1192 -97 167 -130 207 -142 173z"/>
-<path d="M1850 1311 c-75 -24 -96 -36 -153 -90 -64 -59 -84 -90 -217 -322 -65
--114 -110 -203 -110 -219 0 -15 9 -35 21 -46 20 -18 51 -19 839 -22 762 -2
-818 -1 824 15 8 20 26 4 -229 210 -377 304 -468 373 -551 413 -153 76 -309 98
--424 61z"/>
-</g>
-</svg>
-				</span>
-				<a href="{% url 'index' %}" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Locker </a>
-				<a href="javascript:void(0)" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
-				<i class="ion ion-md-menu align-middle"></i>
-				</a>
-			</div>
-			<div class="sidenav-divider mt-0"></div>
-			<!-- Links -->
-			<ul class="sidenav-inner py-1">
-				<!-- Dashboards -->
-				<li class="sidenav-item">
-					<a href="{% url 'index' %}" class="sidenav-link">
-						<i class="sidenav-icon ion ion-md-speedometer"></i>
-						<div>Dashboard</div>
-					</a>
-				</li>
-				<li class="sidenav-divider mb-1"></li>
-				<!-- UI elements -->
-				<li class="sidenav-item">
-					<a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
-						<i class="sidenav-icon fas fa-building"></i>
-						<div>Companies</div>
-					</a>
-					<ul class="sidenav-menu">
-						<li class="sidenav-item">
-							<a href="{% url 'company_create' %}" class="sidenav-link">
-								<div>Create</div>
-							</a>
-						</li>
-						<li class="sidenav-item">
-							<a href="{% url 'company_list' %}" class="sidenav-link">
-								<div>List</div>
-							</a>
-						</li>
-					</ul>
-				</li>
-				<li class="sidenav-item">
-					<a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
-						<i class="sidenav-icon fas fa-user-friends"></i>
-						<div>People</div>
-					</a>
-					<ul class="sidenav-menu">
-						<li class="sidenav-item">
-							<a href="{% url 'people_create' %}" class="sidenav-link">
-								<div>Create</div>
-							</a>
-						</li>
-						<li class="sidenav-item">
-							<a href="{% url 'people_list' %}" class="sidenav-link">
-								<div>List</div>
-							</a>
-						</li>
-					</ul>
-				</li>
-				<li class="sidenav-item">
-					<a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
-						<i class="sidenav-icon fas fa-project-diagram"></i>
-						<div>Pipelines</div>
-					</a>
-					<ul class="sidenav-menu">
-						<li class="sidenav-item">
-							<a href="{% url 'pipeline_create' %}" class="sidenav-link">
-								<div>Create</div>
-							</a>
-						</li>
-						<li class="sidenav-item">
-							<a href="{% url 'pipeline_list' %}" class="sidenav-link">
-								<div>List</div>
-							</a>
-						</li>
-					</ul>
-				</li>
-				<li class="sidenav-item">
-					<a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
-						<i class="sidenav-icon fas fa-dollar-sign"></i>
-						<div>Leads</div>
-					</a>
-					<ul class="sidenav-menu">
-						<li class="sidenav-item">
-							<a href="{% url 'leads_create' %}" class="sidenav-link">
-								<div>Create</div>
-							</a>
-						</li>
-						<li class="sidenav-item">
-							<a href="{% url 'leads_list' %}" class="sidenav-link">
-								<div>List</div>
-							</a>
-						</li>
-					</ul>
-				</li>
-				<li class="sidenav-item">
-					<a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
-						<i class="sidenav-icon fas fa-box-open"></i>
-						<div>Products</div>
-					</a>
-					<ul class="sidenav-menu">
-						<li class="sidenav-item">
-							<a href="{% url 'products_create' %}" class="sidenav-link">
-								<div>Create</div>
-							</a>
-						</li>
-						<li class="sidenav-item">
-							<a href="{% url 'products_list' %}" class="sidenav-link">
-								<div>List</div>
-							</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<!-- / Layout sidenav -->
-		<!-- Layout container -->
-		<div class="layout-container">
-			<!-- Layout navbar -->
-			<nav class="layout-navbar navbar navbar-expand-lg align-items-lg-center bg-white container-p-x" id="layout-navbar">
-				<!-- Brand demo (see assets/css/demo/demo.css) -->
-				<a href="{% url 'index' %}" class="navbar-brand app-brand demo d-lg-none py-0 mr-4">
-					<span class="app-brand-logo demo bg-primary">
-						
-                        <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-                        width="547.000000pt" height="329.000000pt" viewBox="0 0 547.000000 329.000000"
-                        preserveAspectRatio="xMidYMid meet">
-
-                            <g transform="translate(0.000000,329.000000) scale(0.100000,-0.100000)"
-                            fill="#000000" stroke="none">
-                                <path d="M2623 2839 c-32 -12 -23 4 -505 -834 -63 -110 -165 -286 -226 -392
-                                -113 -195 -126 -231 -76 -219 50 13 850 338 893 363 24 14 79 59 123 101 60
-                                57 87 93 116 151 36 72 37 79 37 180 -1 133 -9 154 -156 412 -137 240 -153
-                                258 -206 238z"/>
-                                <path d="M3075 2098 c-8 -23 -94 -570 -115 -733 -26 -202 -25 -252 5 -371 52
-                                -205 128 -300 286 -355 60 -21 81 -23 345 -23 264 -1 283 0 303 18 25 23 27
-                                56 5 99 -15 29 -441 769 -687 1192 -97 167 -130 207 -142 173z"/>
-                                <path d="M1850 1311 c-75 -24 -96 -36 -153 -90 -64 -59 -84 -90 -217 -322 -65
-                                -114 -110 -203 -110 -219 0 -15 9 -35 21 -46 20 -18 51 -19 839 -22 762 -2
-                                818 -1 824 15 8 20 26 4 -229 210 -377 304 -468 373 -551 413 -153 76 -309 98
-                                -424 61z"/>
-                            </g>
-                        </svg>
-					</span>
-					<span class="app-brand-text demo font-weight-normal ml-2">Locker</span>
-				</a>
-				<!-- Sidenav toggle (see assets/css/demo/demo.css) -->
-				<div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-auto">
-					<a class="nav-item nav-link px-0 mr-lg-4" href="javascript:void(0)">
-					<i class="ion ion-md-menu text-large align-middle"></i>
-					</a>
-				</div>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#layout-navbar-collapse">
-				<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="navbar-collapse collapse" id="layout-navbar-collapse">
-					<!-- Divider -->
-					<hr class="d-lg-none w-100 my-2">
-					<div class="navbar-nav align-items-lg-center ml-auto">
-						<!-- Divider -->
-						<div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div>
-						<div class="demo-navbar-user nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-							<span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
-							<img src="{% static 'crm/assets/img/avatars/1.png' %}" alt class="d-block ui-w-30 rounded-circle">
-							<span class="px-1 mr-lg-2 ml-2 ml-lg-0">{{user.first_name}} {{user.last_name}}</span>
-							</span>
-							</a>
-							<div class="dropdown-menu dropdown-menu-right">
-								<a href="{% url 'settings' %}" class="dropdown-item"><i class="ion ion-md-settings text-lightest"></i> &nbsp; Account settings</a>
-								<div class="dropdown-divider"></div>
-								<a href="{% url 'logout' %}" class="dropdown-item"><i class="ion ion-ios-log-out text-danger"></i> &nbsp; Log Out</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</nav>
-			<!-- / Layout navbar -->
-			<!-- Layout content -->
-			<div class="layout-content">
-				<!-- Content -->
-				<div class="container-fluid flex-grow-1 container-p-y">
-                    
-                    {% block body %} 
-                        
-
-                    {% endblock %}
+                                <g transform="translate(0.000000,329.000000) scale(0.100000,-0.100000)"
+                                fill="#000000" stroke="none">
+                                    <path d="M2623 2839 c-32 -12 -23 4 -505 -834 -63 -110 -165 -286 -226 -392
+                                    -113 -195 -126 -231 -76 -219 50 13 850 338 893 363 24 14 79 59 123 101 60
+                                    57 87 93 116 151 36 72 37 79 37 180 -1 133 -9 154 -156 412 -137 240 -153
+                                    258 -206 238z"/>
+                                    <path d="M3075 2098 c-8 -23 -94 -570 -115 -733 -26 -202 -25 -252 5 -371 52
+                                    -205 128 -300 286 -355 60 -21 81 -23 345 -23 264 -1 283 0 303 18 25 23 27
+                                    56 5 99 -15 29 -441 769 -687 1192 -97 167 -130 207 -142 173z"/>
+                                    <path d="M1850 1311 c-75 -24 -96 -36 -153 -90 -64 -59 -84 -90 -217 -322 -65
+                                    -114 -110 -203 -110 -219 0 -15 9 -35 21 -46 20 -18 51 -19 839 -22 762 -2
+                                    818 -1 824 15 8 20 26 4 -229 210 -377 304 -468 373 -551 413 -153 76 -309 98
+                                    -424 61z"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <a href="{% url 'index' %}" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Locker </a>
+                        <a href="javascript:void(0)" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
+                            <i class="ion ion-md-menu align-middle"></i>
+                        </a>
+                    </div>
+                    <div class="sidenav-divider mt-0"></div>
+                    <!-- Links -->
+                    <ul class="sidenav-inner py-1">
+                        <!-- Dashboards -->
+                        <li class="sidenav-item">
+                            <a href="{% url 'index' %}" class="sidenav-link">
+                                <i class="sidenav-icon ion ion-md-speedometer"></i>
+                                <div>Dashboard</div>
+                            </a>
+                        </li>
+                        <li class="sidenav-divider mb-1"></li>
+                        <!-- UI elements -->
+                        <li class="sidenav-item">
+                            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                                <i class="sidenav-icon fas fa-building"></i>
+                                <div>Companies</div>
+                            </a>
+                            <ul class="sidenav-menu">
+                                <li class="sidenav-item">
+                                    <a href="{% url 'company_create' %}" class="sidenav-link">
+                                        <div>Create</div>
+                                    </a>
+                                </li>
+                                <li class="sidenav-item">
+                                    <a href="{% url 'company_list' %}" class="sidenav-link">
+                                        <div>List</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidenav-item">
+                            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                                <i class="sidenav-icon fas fa-user-friends"></i>
+                                <div>People</div>
+                            </a>
+                            <ul class="sidenav-menu">
+                                <li class="sidenav-item">
+                                    <a href="{% url 'people_create' %}" class="sidenav-link">
+                                        <div>Create</div>
+                                    </a>
+                                </li>
+                                <li class="sidenav-item">
+                                    <a href="{% url 'people_list' %}" class="sidenav-link">
+                                        <div>List</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidenav-item">
+                            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                                <i class="sidenav-icon fas fa-project-diagram"></i>
+                                <div>Pipelines</div>
+                            </a>
+                            <ul class="sidenav-menu">
+                                <li class="sidenav-item">
+                                    <a href="{% url 'pipeline_create' %}" class="sidenav-link">
+                                        <div>Create</div>
+                                    </a>
+                                </li>
+                                <li class="sidenav-item">
+                                    <a href="{% url 'pipeline_list' %}" class="sidenav-link">
+                                        <div>List</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidenav-item">
+                            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                                <i class="sidenav-icon fas fa-dollar-sign"></i>
+                                <div>Leads</div>
+                            </a>
+                            <ul class="sidenav-menu">
+                                <li class="sidenav-item">
+                                    <a href="{% url 'leads_create' %}" class="sidenav-link">
+                                        <div>Create</div>
+                                    </a>
+                                </li>
+                                <li class="sidenav-item">
+                                    <a href="{% url 'leads_list' %}" class="sidenav-link">
+                                        <div>List</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidenav-item">
+                            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                                <i class="sidenav-icon fas fa-box-open"></i>
+                                <div>Products</div>
+                            </a>
+                            <ul class="sidenav-menu">
+                                <li class="sidenav-item">
+                                    <a href="{% url 'products_create' %}" class="sidenav-link">
+                                        <div>Create</div>
+                                    </a>
+                                </li>
+                                <li class="sidenav-item">
+                                    <a href="{% url 'products_list' %}" class="sidenav-link">
+                                        <div>List</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-				<!-- / Content -->
-			</div>
-			<!-- Layout content -->
-		</div>
-		<!-- / Layout container -->
-	</div>
-	<!-- Overlay -->
-	<div class="layout-overlay layout-sidenav-toggle"></div>
-</div>
-<!-- / Layout wrapper -->
+                <!-- / Layout sidenav -->
+                <!-- Layout container -->
+                <div class="layout-container">
+                    <!-- Layout navbar -->
+                    <nav class="layout-navbar navbar navbar-expand-lg align-items-lg-center bg-white container-p-x" id="layout-navbar">
+                        <!-- Brand demo (see assets/css/demo/demo.css) -->
+                        <a href="{% url 'index' %}" class="navbar-brand app-brand demo d-lg-none py-0 mr-4">
+                            <span class="app-brand-logo demo bg-primary">
+                                
+                                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                                width="547.000000pt" height="329.000000pt" viewBox="0 0 547.000000 329.000000"
+                                preserveAspectRatio="xMidYMid meet">
+
+                                    <g transform="translate(0.000000,329.000000) scale(0.100000,-0.100000)"
+                                    fill="#000000" stroke="none">
+                                        <path d="M2623 2839 c-32 -12 -23 4 -505 -834 -63 -110 -165 -286 -226 -392
+                                        -113 -195 -126 -231 -76 -219 50 13 850 338 893 363 24 14 79 59 123 101 60
+                                        57 87 93 116 151 36 72 37 79 37 180 -1 133 -9 154 -156 412 -137 240 -153
+                                        258 -206 238z"/>
+                                        <path d="M3075 2098 c-8 -23 -94 -570 -115 -733 -26 -202 -25 -252 5 -371 52
+                                        -205 128 -300 286 -355 60 -21 81 -23 345 -23 264 -1 283 0 303 18 25 23 27
+                                        56 5 99 -15 29 -441 769 -687 1192 -97 167 -130 207 -142 173z"/>
+                                        <path d="M1850 1311 c-75 -24 -96 -36 -153 -90 -64 -59 -84 -90 -217 -322 -65
+                                        -114 -110 -203 -110 -219 0 -15 9 -35 21 -46 20 -18 51 -19 839 -22 762 -2
+                                        818 -1 824 15 8 20 26 4 -229 210 -377 304 -468 373 -551 413 -153 76 -309 98
+                                        -424 61z"/>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span class="app-brand-text demo font-weight-normal ml-2">Locker</span>
+                        </a>
+                        <!-- Sidenav toggle (see assets/css/demo/demo.css) -->
+                        <div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-auto">
+                            <a class="nav-item nav-link px-0 mr-lg-4" href="javascript:void(0)">
+                                <i class="ion ion-md-menu text-large align-middle"></i>
+                            </a>
+                        </div>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#layout-navbar-collapse">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="navbar-collapse collapse" id="layout-navbar-collapse">
+                            <!-- Divider -->
+                            <hr class="d-lg-none w-100 my-2">
+                            <div class="navbar-nav align-items-lg-center ml-auto">
+                                <!-- Divider -->
+                                <div class="nav-item d-none d-lg-block text-big font-weight-light line-height-1 opacity-25 mr-3 ml-1">|</div>
+                                <div class="demo-navbar-user nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                                    <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
+                                    <img src="{% static 'crm/assets/img/avatars/icons8-male-user-50.png' %}" alt class="d-block ui-w-30 rounded-circle">
+                                    <span class="px-1 mr-lg-2 ml-2 ml-lg-0">{{user.first_name}} {{user.last_name}}</span>
+                                    </span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="{% url 'settings' %}" class="dropdown-item"><i class="ion ion-md-settings text-lightest"></i> &nbsp; Account settings</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="{% url 'logout' %}" class="dropdown-item"><i class="ion ion-ios-log-out text-danger"></i> &nbsp; Log Out</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                    <!-- / Layout navbar -->
+                    <!-- Layout content -->
+                    <div class="layout-content">
+                        <!-- Content -->
+                        <div class="container-fluid flex-grow-1 container-p-y">
+                            
+                            {% block body %} 
+                                
+
+                            {% endblock %}
+                        </div>
+                        <!-- / Content -->
+                    </div>
+                    <!-- Layout content -->
+                </div>
+                <!-- / Layout container -->
+            </div>
+            <!-- Overlay -->
+            <div class="layout-overlay layout-sidenav-toggle"></div>
+        </div>
+        <!-- / Layout wrapper -->
 		<script src="{% static 'crm/assets/vendor/libs/popper/popper.js' %}"></script>
 		<script src="{% static 'crm/assets/vendor/js/bootstrap.js' %}"></script>
 		<script src="{% static 'crm/assets/vendor/js/sidenav.js' %}"></script>

@@ -12,6 +12,7 @@ from django.db.models import Sum
 from datetime import datetime,date, timedelta
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -46,6 +47,7 @@ def index(request):
         month_losses.append(len(LeadLoss.objects.filter(date__month=prev.month)))
         labels.append(f"{month_name} - {prev.year}")
         prev = prev.replace(day=1) - timedelta(days=1)
+    
     #invert list orders   
     labels.reverse()
     month_losses.reverse()
@@ -144,7 +146,7 @@ def index(request):
 
     return render(request, "crm/index.html", context)
 
-
+@login_required(login_url='/login/')
 def stage_stats(request, pipeline_id):
     if request.method == "GET":
         try:
@@ -159,6 +161,7 @@ def stage_stats(request, pipeline_id):
             "error": "GET request required."
         }, status=400)
 
+@login_required(login_url='/login/')
 def company_create(request):
     if request.method == "POST":
         form = CompanyForm(request.POST)
@@ -179,6 +182,7 @@ def company_create(request):
         }
         return render(request, "crm/company_create.html", context) 
 
+@login_required(login_url='/login/')
 def company_list(request):
     companies = Company.objects.filter(customer=request.user.customer)
     context = {
@@ -187,6 +191,7 @@ def company_list(request):
 
     return render(request, "crm/company_list.html", context)
 
+@login_required(login_url='/login/')
 def company_edit(request, company_id):
     try:
         company = Company.objects.get(pk=company_id)
@@ -217,8 +222,9 @@ def company_edit(request, company_id):
 
 
     except Company.DoesNotExist:
-        return HttpResponse("Page not found")
+        return render(request, 'crm/404.html')
 
+@login_required(login_url='/login/')
 def people_create(request):
     if request.method == "POST":
         form = CompanyMemberForm(request.POST)
@@ -238,12 +244,14 @@ def people_create(request):
         }
         return render(request, "crm/people_create.html", context)
 
+@login_required(login_url='/login/')
 def people_list(request):
     context = {
         'members': CompanyMember.objects.filter(company__customer=request.user.customer)
     }
     return render(request, "crm/people_list.html", context)
 
+@login_required(login_url='/login/')
 def people_edit(request, person_id):
     try:
         person = CompanyMember.objects.get(pk=person_id)
@@ -275,11 +283,13 @@ def people_edit(request, person_id):
 
 
     except CompanyMember.DoesNotExist:
-        return HttpResponse("Page not found")
+        return render(request, 'crm/404.html')
 
+@login_required(login_url='/login/')
 def pipeline_create(request):
     return render(request, 'crm/pipeline_create.html')
 
+@login_required(login_url='/login/')
 def pipeline_list(request):
     pipelines = Pipeline.objects.filter(customer = request.user.customer)
 
@@ -288,6 +298,7 @@ def pipeline_list(request):
     }
     return render(request, 'crm/pipeline_list.html', context)
 
+@login_required(login_url='/login/')
 def pipeline_edit(request, pipeline_id):
     try:
         pipeline = Pipeline.objects.get(pk=pipeline_id)
@@ -310,6 +321,7 @@ def pipeline_edit(request, pipeline_id):
 
                 pipeline.name= data.get('pipeline_name')
 
+                #create list of pipline stages
                 is_valid = True
                 stages = []
                 for stage in data.get('steps'):
@@ -318,6 +330,7 @@ def pipeline_edit(request, pipeline_id):
                     else:
                         stages.append(PipelineStage(step=stage['step'], name=stage['stage_name'], pipeline=pipeline, guidance= stage['guidance']))
 
+                #save each pipline stage with their tasks
                 if is_valid:
                     pipeline.save()
                     pipeline.stages.all().delete()
@@ -337,12 +350,14 @@ def pipeline_edit(request, pipeline_id):
         else:
             return JsonResponse({"error": "No pipeline name specified"}, status=403)
 
+@login_required(login_url='/login/')
 def leads_list(request):
     context = {
         'leads': Lead.objects.filter(customer= request.user.customer)
     }
     return render(request, "crm/leads_list.html", context)
 
+@login_required(login_url='/login/')
 def leads_create(request):
     if request.method == "GET":
         products = request.user.customer.products.all()
@@ -360,6 +375,7 @@ def leads_create(request):
 
         return render(request, "crm/leads_create.html", context)
 
+@login_required(login_url='/login/')
 def lead_page(request, lead_id):
     try:
         lead = Lead.objects.get(id=lead_id)
@@ -369,10 +385,11 @@ def lead_page(request, lead_id):
             'statuses': statuses
         }
     except Lead.DoesNotExist:
-        return HttpResponse('This page does not exist')
+        return render(request, 'crm/404.html')
 
     return render(request, "crm/leads_page.html", context)
 
+@login_required(login_url='/login/')
 def update_lead_status(request, lead_id):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -403,6 +420,7 @@ def update_lead_status(request, lead_id):
             "error": "POST request required."
         }, status=400)
 
+@login_required(login_url='/login/')
 def products_create(request):
     if request.method == "GET":
         context = {
@@ -425,6 +443,7 @@ def products_create(request):
             }
             return render(request, "crm/products_create.html", context)
 
+@login_required(login_url='/login/')
 def products_list(request):
     if request.method == "GET":
         products = Product.objects.filter(customer= request.user.customer)
@@ -432,6 +451,8 @@ def products_list(request):
             'products': products
         }
         return render(request, "crm/products_list.html", context)
+
+@login_required(login_url='/login/')
 def products_edit(request, product_id):
     try:
         product = Product.objects.get(pk=product_id)
@@ -460,8 +481,9 @@ def products_edit(request, product_id):
 
             return render(request, 'crm/products_edit.html', context)
     except Product.DoesNotExist:
-        return HttpResponse('Page not found')
+        return render(request, 'crm/404.html')
 
+@login_required(login_url='/login/')
 def settings(request):  
     context={
         'user_form': SettingsUserForm(instance=request.user),
@@ -469,6 +491,7 @@ def settings(request):
     }
     return render(request, "crm/settings.html", context)
 
+@login_required(login_url='/login/')
 def settings_account(request):
     if request.method == "POST":
         user_form = SettingsUserForm(request.POST, instance=request.user)
@@ -492,6 +515,7 @@ def settings_account(request):
         }
         return render(request, "crm/settings.html", context)
 
+@login_required(login_url='/login/')
 def settings_customer(request):
     if request.method == "POST":
         customer_form = CustomerForm(request.POST, instance=request.user.customer)
@@ -515,6 +539,7 @@ def settings_customer(request):
         }
         return render(request, "crm/settings.html", context)
 
+@login_required(login_url='/login/')
 def settings_password(request):
     if request.method == "POST":
         current_message = None
@@ -624,6 +649,7 @@ def login_view(request):
     else:
         return render(request, "crm/login.html")
 
+@login_required(login_url='/login/')
 def save_pipeline(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -667,6 +693,7 @@ def save_pipeline(request):
             "error": "POST request required."
         }, status=400)
 
+@login_required(login_url='/login/')
 def save_lead(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -678,7 +705,7 @@ def save_lead(request):
         products = []
         people = []
 
-        #update user following
+        #check for missing values in post
         if data.get('lead_name') is  None:
             valid = False
             message += f"* Lead name missing \n"
@@ -737,7 +764,6 @@ def save_lead(request):
                         valid = False
                         break
 
-
         if data.get('people') is  None:
             valid = False
             message += f"* People date missing \n"
@@ -774,6 +800,8 @@ def save_lead(request):
         return JsonResponse({
             "error": "POST request required."
         }, status=400)
+
+@login_required(login_url='/login/')
 def advance_to_stage(request, lead_id):
     if request.method == "POST":
         try:
@@ -785,6 +813,8 @@ def advance_to_stage(request, lead_id):
             if data.get('stage'):
                 try:
                     stage = PipelineStage.objects.get(pk=int(data.get('stage')))
+
+                    #complete all previous stages
                     for step in lead.pipeline.stages.all():
                         if step.step <= stage.step:
                             progress.task_lines.filter(task__pipeline_stage=step).update(is_complete=True)
@@ -810,6 +840,7 @@ def advance_to_stage(request, lead_id):
             "error": "POST request required."
         }, status=400)
 
+@login_required(login_url='/login/')
 def complete_task(request, task_id):
     if request.method =="POST":
         data = json.loads(request.body)

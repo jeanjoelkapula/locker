@@ -28,118 +28,117 @@
                 <div class="tab-pane fade show active" id="pipeline-tab">
                     <h6 class="card-header">
                         {{lead.name}}
-                      </h6>
-                      <div class="card-body">	
-                          <div>
-                              <div class="lead-header">
-                                 <div class="lead-header-item"> 
-                                      <div class="lead-header-item-title">
-                                          <h6>Opened On</h6>
-                                      </div>
-                                      <div class="lead-header-item-body">
-                                          <span>{{lead.opened_date}}</span>
-                                      </div>
-                                 </div>
-                                  <div class="lead-header-item"> 
-                                      <div class="lead-header-item-title">
-                                          <h6>Expected Closed Date</h6>
-                                      </div>
-                                      <div class="lead-header-item-body">
-                                          <span>{{lead.expected_close_date}}</span>
-                                      </div>
-                                 </div>
-                                  <div class="lead-header-item"> 
-                                      <div class="lead-header-item-title">
-                                          <h6>Confidence</h6>
-                                      </div>
-                                      <div class="lead-header-item-body">
-                                          <span>{{lead.confidence}}%</span>
-                                      </div>
-                                 </div>
-                                 <div class="lead-header-item"> 
-                                      <div class="lead-header-item-title">
-                                          <h6>Value</h6>
-                                      </div>
-                                      <div class="lead-header-item-body">
-                                          <span>${{lead.value}}</span>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="" style="padding-bottom: 1.5rem;">	
-                                  <div>
-                                      <h6>Pipeline: <span>{{lead.pipeline.name}}</span></h6>
-                                  </div>
-                                  <div  class="arrow-steps clearfix" style="display: flex;">
-                                      <div id="steps-container" style="display: flex;">
-                                          {% for stage in lead.pipeline.stages.all %}
+                    </h6>
+                    <div class="card-body">	
+                        <div>
+                            <div class="lead-header">
+                                <div class="lead-header-item"> 
+                                    <div class="lead-header-item-title">
+                                        <h6>Opened On</h6>
+                                    </div>
+                                    <div class="lead-header-item-body">
+                                        <span>{{lead.opened_date}}</span>
+                                    </div>
+                                </div>
+                                <div class="lead-header-item"> 
+                                    <div class="lead-header-item-title">
+                                        <h6>Expected Closed Date</h6>
+                                    </div>
+                                    <div class="lead-header-item-body">
+                                        <span>{{lead.expected_close_date}}</span>
+                                    </div>
+                                </div>
+                                <div class="lead-header-item"> 
+                                    <div class="lead-header-item-title">
+                                        <h6>Confidence</h6>
+                                    </div>
+                                    <div class="lead-header-item-body">
+                                        <span>{{lead.confidence}}%</span>
+                                    </div>
+                                </div>
+                                <div class="lead-header-item"> 
+                                    <div class="lead-header-item-title">
+                                        <h6>Value</h6>
+                                    </div>
+                                    <div class="lead-header-item-body">
+                                        <span>${{lead.value}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="" style="padding-bottom: 1.5rem;">	
+                                <div>
+                                    <h6>Pipeline: <span>{{lead.pipeline.name}}</span></h6>
+                                </div>
+                                <div  class="arrow-steps clearfix" style="display: flex;">
+                                    <div id="steps-container" style="display: flex;">
+                                        {% for stage in lead.pipeline.stages.all %}
                                             {% if  forloop.first %}
                                                 <div class="step-container" id = "stage-{{stage.id}}">
-                                                    <div class="step first-step pipeline-stage {% if lead.status.name == 'Lost' or lead.status.name == 'Cancelled' %} step-disabled {% else %} current {% endif %} {% if stage|is_stage_complete:lead %} done {% endif %}" data-complete="{{ stage|is_stage_complete:lead }}" data-target="{{stage.name}}" data-id="{{stage.id}}" data-step="{{stage.step}}" onclick="show_tab(this);"> <span id="step-span-{{stage.step}}"> {{stage.name}}</span> </div>
+                                                <div class="step first-step pipeline-stage {% if lead.status.name == 'Lost' or lead.status.name == 'Cancelled' %} step-disabled {% else %} current {% endif %} {% if stage|is_stage_complete:lead %} done {% endif %}" data-complete="{{ stage|is_stage_complete:lead }}" data-target="{{stage.name}}" data-id="{{stage.id}}" data-step="{{stage.step}}" onclick="show_tab(this);"> <span id="step-span-{{stage.step}}"> {{stage.name}}</span> </div>
                                                     {% if stage|is_stage_complete:lead %} <div class="step-edit" ><a id="advance-link-{{stage.step}}" href="javascript:void(0);" class="advance-link" data-stage="{{stage.id}}" data-step="{{stage.step}}" onclick="advance_to_stage(this);" style="display: none;">Advance to this stage</a></div>{% endif %}
                                                 </div>
                                             {% else %}
                                                 <div class="step-container" id = "stage-{{stage.id}}">
                                                     <div class="step {% if stage|is_stage_complete:lead != None %} {% if stage|is_stage_complete:lead %} done {% if lead.status.name == 'Lost' or lead.status.name == 'Cancelled' %} step-disabled {% else %} current {% endif %}  {% else %} step-list-item {% endif %}{% endif %}" data-complete="{{ stage|is_stage_complete:lead }}" data-target="{{stage.name}}" data-step="{{stage.step}}" onclick="show_tab(this);"> <span id="step-span-{{stage.step}}"> {{stage.name}}</span> </div>
-                                                  {% if stage|is_stage_complete:lead == False %} <div class="step-edit" ><a id="advance-link-{{stage.step}}" href="javascript:void(0);" class="advance-link" data-stage="{{stage.id}}" data-step="{{stage.step}}" onclick="advance_to_stage(this);" style="display: none;">Advance to this stage</a></div>{% endif %}                                      </div>
+                                                    {% if stage|is_stage_complete:lead == False %} <div class="step-edit" ><a id="advance-link-{{stage.step}}" href="javascript:void(0);" class="advance-link" data-stage="{{stage.id}}" data-step="{{stage.step}}" onclick="advance_to_stage(this);" style="display: none;">Advance to this stage</a></div>{% endif %}                                      </div>
                                             {% endif %}
-                                          {% endfor %}
-                                      </div>
-                                  </div>
-                                  <div class="nav clearfix">
-                                  </div>
-                              </div>
-                              <div id="lead-tab">
-                                  {% for stage in lead.pipeline.stages.all %}
-                                       <div class="lead-body lead-tab-pane" id="{{stage.name}}" style="{% if forloop.first %} display: block; {% else %} display: none; {% endif %}">
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="nav clearfix">
+                                </div>
+                            </div>
+                            <div id="lead-tab">
+                                {% for stage in lead.pipeline.stages.all %}
+                                    <div class="lead-body lead-tab-pane" id="{{stage.name}}" style="{% if forloop.first %} display: block; {% else %} display: none; {% endif %}">
                                       
-                                          <div class="lead-body-item ">
-                                              <div class="lead-body-item-header">
-                                                  <h6>
-                                                      Goal: <span id ="tab-step-{{stage.step}}">{{stage.name}}</span>
-                                                  </h6>
-                                              </div>
-                                              <div class="lead-body-item-content">
-                                                  <div class="icon-div">
-                                                      <div>
-                                                          <i class="ion ion-md-flashlight"></i>
-                                                      </div>
-                                                  </div>
-                                                  <div class="content-div">
-                                                      <h6>Guidance</h6>
-                                                      <p>{{stage.guidance}}</p>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div class="lead-body-item ">
-                                              <div class="lead-body-item-header" style="display: flex; align-items: center;">
-                                                  <h6 style="margin-top: 26px;">
-                                                      Tasks
-                                                  </h6>
-                                              </div>
-                                              <div class="lead-body-item-content">
-                                                  <div class="content-div w-100" id="tasks-{{stage.name}}">
-                                                      {% for task in stage.tasks.all %}
-                                                          <div id="task-{{task.id}}">
-                                                              <div class="d-flex  w-100">
-                                                                  <div class="col-9">
-                                                                      <label class="custom-control custom-checkbox m-0">
-                                                                          <input id="task-input-{{task.id}}" type="checkbox" {% if lead.status.name == 'Lost' or lead.status.name == 'Cancelled' %} disabled {% endif %} class="custom-control-input" data-task="{{task.id}}" data-step="{{stage.step}}" onclick="complete_task(this);" {% if task|is_task_complete:lead %} checked{% endif %}>
-                                                                          <span class="custom-control-label">{{task.name}}</span>
-                                                                      </label>
-                                                                  </div>
-                                                              </div>
-                                                          </div>
+                                        <div class="lead-body-item ">
+                                            <div class="lead-body-item-header">
+                                                <h6>
+                                                    Goal: <span id ="tab-step-{{stage.step}}">{{stage.name}}</span>
+                                                </h6>
+                                            </div>
+                                            <div class="lead-body-item-content">
+                                                <div class="icon-div">
+                                                    <div>
+                                                        <i class="ion ion-md-flashlight"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="content-div">
+                                                    <h6>Guidance</h6>
+                                                    <p>{{stage.guidance}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="lead-body-item ">
+                                            <div class="lead-body-item-header" style="display: flex; align-items: center;">
+                                                <h6 style="margin-top: 26px;">
+                                                    Tasks
+                                                </h6>
+                                            </div>
+                                            <div class="lead-body-item-content">
+                                                <div class="content-div w-100" id="tasks-{{stage.name}}">
+                                                    {% for task in stage.tasks.all %}
+                                                        <div id="task-{{task.id}}">
+                                                            <div class="d-flex  w-100">
+                                                                <div class="col-9">
+                                                                    <label class="custom-control custom-checkbox m-0">
+                                                                        <input id="task-input-{{task.id}}" type="checkbox" {% if lead.status.name == 'Lost' or lead.status.name == 'Cancelled' %} disabled {% endif %} class="custom-control-input" data-task="{{task.id}}" data-step="{{stage.step}}" onclick="complete_task(this);" {% if task|is_task_complete:lead %} checked{% endif %}>
+                                                                        <span class="custom-control-label">{{task.name}}</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                       {% endfor %}
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      
-                                  </div>
-                                  {% endfor %}
-                              </div>
-                          </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                         
-                      </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="more-info">
                    

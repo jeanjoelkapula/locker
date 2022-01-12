@@ -14,7 +14,6 @@ $(function() {
         $('#stage-name-error').hide();
     });
 
-   
 });
 
 
