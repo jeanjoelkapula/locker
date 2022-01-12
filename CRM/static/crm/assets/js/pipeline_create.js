@@ -14,6 +14,11 @@ $(function() {
         $('#stage-name-error').hide();
     });
 
+    $('#add-stage').on('click', function(){
+        $('#stage-name').val('');
+        $('#stage-name-error').hide();
+    });
+
 });
 
 
@@ -40,7 +45,7 @@ const csrftoken = getCookie('csrftoken');
 function show_tab(element) {
     $('.lead-tab-pane').hide();
     id = '#' + element.dataset.target;
-    stage = steps.find(stage => stage.stage_name == element.dataset.target);
+    stage = steps.find(stage => stage.step == element.dataset.step);
     current_step = stage.step;
     $(id).show();
     
@@ -62,7 +67,7 @@ function delete_stage(element){
 
         document.querySelector(`#stage-${element.dataset.step}`).remove();
         step = steps.find(stage => stage.step == element.dataset.step);
-        document.querySelector(`#${step.stage_name}`).remove();
+        document.querySelector(`#tab-${step.step}`).remove();
 
         steps = steps.filter(function(value, index, arr){ 
             return value.step != element.dataset.step;
@@ -73,11 +78,10 @@ function delete_stage(element){
             $($(`[data-step="${steps[i].step}"]`)[1]).data('step', i+1);
             steps[i].step = i + 1;
         }
-
-        $($('.step')[$('.step').length - 2]).addClass('first-step');
+        $('.step').removeClass('current');
         $($('.step')[$('.step').length - 2]).addClass('current');
         current_step = steps[steps.length - 1].step;
-        $(`#${steps[steps.length - 1].stage_name}`).show();
+        $(`#tab-${steps[steps.length - 1].step}`).show();
         $('#edit-dismiss').click();
     }
     
@@ -88,19 +92,21 @@ function edit_stage(element) {
     $('#stage-name-edit').val(stage.stage_name);
     document.querySelector('#edit_stage_button').dataset.step = element.dataset.step;
     document.querySelector('#edit-delete').dataset.step = element.dataset.step;
+    $('#stage-edit-error').hide();
     $('#show-modal').click();
 }
 
 function save_stage_edit(button){
     stage = steps.find(stage => stage.step == button.dataset.step);
 
-    document.querySelector(`#${stage.stage_name}`).id = $('#stage-name-edit').val();
-    document.querySelector(`#tasks-${stage.stage_name}`).id = 'tasks-' + $('#stage-name-edit').val();
+    //document.querySelector(`#tab-${stage.step}`).id = $('#stage-name-edit').val();
+    //document.querySelector(`#tasks-${stage.step}`).id = 'tasks-' + $('#stage-name-edit').val();
 
     stage.stage_name = $('#stage-name-edit').val();
     document.querySelector(`#step-span-${button.dataset.step}`).innerHTML = $('#stage-name-edit').val();
-    document.querySelector(`#step-span-${button.dataset.step}`).parentNode.dataset.target = stage.stage_name;
+    document.querySelector(`#step-span-${button.dataset.step}`).parentNode.dataset.target = 'tab-' + stage.step;
     document.querySelector(`#tab-step-${button.dataset.step}`).innerHTML = stage.stage_name;
+    $('#stage-name-edit').val('');
     $('#edit-dismiss').click();
 }
 
@@ -126,7 +132,7 @@ function add_task(element){
     else {
         stage = steps.find(stage => stage.step == current_step);
         error = document.querySelector('#task-name-error');
-        list_container = document.querySelector(`#tasks-${stage.stage_name}`);
+        list_container = document.querySelector(`#tasks-${stage.step}`);
         
         task = document.createElement('div');
         task.id = `task-${stage.tasks.length + 1}`;
@@ -180,12 +186,12 @@ function save_stage(){
             stage_step = document.createElement('div');
             stage_step.id = `stage-${steps.length + 1}`;
             stage_tab = document.createElement('div');
-            stage_tab.id = stage_name;
+            stage_tab.id = `tab-${steps.length + 1}`;
             stage_tab.style.display = 'none';
             stage_step.className = 'step-container';
             stage_step.innerHTML = `  
-                <div class="step pipeline-stage" data-target="${stage_name}" data-step="data-step="${steps.length + 1}" onclick="show_tab(this);"> <span id='step-span-${steps.length + 1}'>${stage_name}</span> </div>
-                <div class="step-edit"><a href="javascript:void(0)" data-step="${steps.length + 1}" data-target="${stage_name}" onclick="edit_stage(this);">Edit</a></div>
+                <div class="step pipeline-stage" data-target="tab-${steps.length + 1}" data-step="${steps.length + 1}" onclick="show_tab(this);"> <span id='step-span-${steps.length + 1}'>${stage_name}</span> </div>
+                <div class="step-edit"><a href="javascript:void(0)" data-step="${steps.length + 1}" data-target="tab-${steps.length + 1}" onclick="edit_stage(this);">Edit</a></div>
                 `;
 
             steps_container.append(stage_step);
@@ -219,7 +225,7 @@ function save_stage(){
                         </div>
                     </div>
                     <div class="lead-body-item-content">
-                        <div class="content-div w-100" id="tasks-${stage_name}">
+                        <div class="content-div w-100" id="tasks-${steps.length + 1}">
                         
                         </div>
                     </div>
@@ -244,8 +250,11 @@ function save_stage(){
 
 function save_pipeline(element) {
     pipeline_name = document.querySelector('#pipeline-name').value;
+    is_save = false;
+
     if (element.dataset.pipeline){
         url = `/pipeline/${element.dataset.pipeline}/edit`;
+        is_save = true;
     }
     else{
         url = '/pipeline/save';
@@ -338,8 +347,10 @@ function save_pipeline(element) {
                         text: data.success,
                         type: 'success',
                         onClose: ()=>{
-                            $('input').val('');
-                            $('textarea').val('');
+                            if (!is_save) {
+                                $('input').val('');
+                                $('textarea').val('');    
+                            }
                             window.location.reload();
                         }
                         
