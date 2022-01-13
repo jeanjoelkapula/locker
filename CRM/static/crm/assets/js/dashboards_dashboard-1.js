@@ -144,8 +144,8 @@ $(function() {
     }
   });
 
-  new PerfectScrollbar(document.getElementById('tasks-inner'));
-  new PerfectScrollbar(document.getElementById('team-todo-inner'));
+  //new PerfectScrollbar(document.getElementById('tasks-inner'));
+  //new PerfectScrollbar(document.getElementById('team-todo-inner'));
 
   if ($('html').attr('dir') === 'rtl') {
     $('#sales-dropdown-menu').removeClass('dropdown-menu-right');

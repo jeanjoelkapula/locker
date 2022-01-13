@@ -217,6 +217,7 @@ function update_lead_status(element) {
                     });
 
                     $('input[type=checkbox]').attr('disabled', true);
+                    $('.advance-link').hide();
                 }
 
                 if ((data.status.name == "Open") || (data.status.name == "Won")) {
@@ -280,7 +281,10 @@ jQuery( document ).ready(function() {
             if ((parseInt(element.dataset.step) == current) && (element.dataset.complete === "False")) {
                 jQuery(element).addClass('pipeline-stage');
                 jQuery(element).removeClass('step-list-item');
-                $(`#advance-link-${current}`).show();
+
+                if (lead.status.name=="Open"){
+                    $(`#advance-link-${current}`).show();
+                }
 
             }
         });

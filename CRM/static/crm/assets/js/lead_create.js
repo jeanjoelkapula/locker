@@ -139,7 +139,7 @@ function add_product () {
                     <i class="fas fa-box-open d-block"></i>
                 </div>
                 <div class="product-name">
-                    ${product.name} (x${quantity.val()})
+                    ${product.name} $${product.price} (x${quantity.val()})
                 </div>
                 <div class="product-remove">
                     <a href="javascript:void(0)" data-product="${product.id}" onclick="remove_prodcut(this);">

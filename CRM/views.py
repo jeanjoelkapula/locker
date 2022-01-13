@@ -827,7 +827,7 @@ def advance_to_stage(request, lead_id):
                         lead.status = s
                         lead.save()
 
-                        obj, created = Sale.objects.get_or_create(lead=lead)
+                        obj, created = Sale.objects.get_or_create(lead=lead, customer=request.user.customer)
 
                     return JsonResponse({"success": "Succesfully advanced to next stage", "is_lead_complete": is_lead_complete, "status": lead.status.serialize()}, status=200)
                 except PipelineStage.DoesNotExist:
