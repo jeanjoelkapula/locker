@@ -99,7 +99,7 @@ def index(request):
     else:
         stage_lead_counts = {}
     #current month sales
-    current_month_sales = Sale.objects.filter(date__month=datetime.now().month)
+    current_month_sales = Sale.objects.filter(date__month=datetime.now().month, customer = request.user.customer)
     current_month_sales_value = 0
     for sale in current_month_sales:
         current_month_sales_value += sale.lead.value()
