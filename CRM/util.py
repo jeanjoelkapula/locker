@@ -1,3 +1,4 @@
+from unicodedata import name
 from .models import *
 
 def is_stage_complete(stage, lead):
@@ -37,3 +38,20 @@ def get_stage_stats(pipeline):
     stage_lead_counts = temp
 
     return stage_lead_counts
+
+def default_lookups():
+    units = ['Minute', 'Hour', 'Day', 'Week', 'Month', 'Year']
+    statuses = ['Open', 'Lost', 'Won']
+    sources = ['Web Signup', 'Referral', 'Conference', 'Meeting', 'Cold Call']
+
+    try:
+        value = Unit.objects.get(name='Minute')
+    except Unit.DoesNotExist:
+        for unit in units:
+            Unit.objects.get_or_create(name=unit)
+        
+        for status in statuses:
+            LeadStatus.objects.get_or_create(name=status)
+        
+        for source in sources:
+            LeadSource.objects.get_or_create(name=source)

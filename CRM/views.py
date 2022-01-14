@@ -20,6 +20,8 @@ def index(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('login'))
 
+    util.default_lookups()
+    
     #total sales count
     sales_count = 0
     for sale in Sale.objects.filter(date__month=datetime.now().month, customer = request.user.customer):
@@ -79,7 +81,7 @@ def index(request):
         total_sales_loss += lead.value()
     
     #hot leads
-    hot_leads = Lead.objects.filter(customer=request.user.customer, is_hot=True).order_by('-expected_close_date')
+    hot_leads = Lead.objects.filter(customer=request.user.customer, is_hot=True, status__name='Open').order_by('-expected_close_date')
 
     #leads pie chart
     leads_pie_chart_data =  {
@@ -367,7 +369,10 @@ def leads_create(request):
         pipelines = Pipeline.objects.filter(customer= request.user.customer)
         sources = LeadSource.objects.all()
         companies = request.user.customer.companies.all()
-        people = companies.first().members.all()
+        if companies.first():
+            people = companies.first().members.all()
+        else:
+            people = None
         context = {
             'products': products,
             'sources': sources,
