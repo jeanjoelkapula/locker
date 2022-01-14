@@ -2,7 +2,9 @@
 {% extends "crm/layout.html" %}
 {% load static %}
 {% load stage_complete %}
-
+{% block title %}
+    Lead| Page
+{% endblock %}
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/datatables/datatables.css' %}">
     <link rel="stylesheet" href="{% static 'crm/assets/vendor/libs/sweetalert2/sweetalert2.css' %}">

@@ -240,8 +240,10 @@ def people_create(request):
         return render(request, "crm/people_create.html", context)
 
     else:
+        form = CompanyMemberForm()
+        form.fields['company'].choices = [(company.id, company.company_name) for company in Company.objects.filter(customer=request.user.customer)]
         context = {
-            'form': CompanyMemberForm()
+            'form': form
         }
         return render(request, "crm/people_create.html", context)
 
