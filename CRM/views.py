@@ -94,9 +94,10 @@ def index(request):
 
     #pipeline lead count per stage
     pipeline = Pipeline.objects.filter(customer=request.user.customer).last()
-
-    stage_lead_counts = util.get_stage_stats(pipeline)
-
+    if pipeline:
+        stage_lead_counts = util.get_stage_stats(pipeline)
+    else:
+        stage_lead_counts = {}
     #current month sales
     current_month_sales = Sale.objects.filter(date__month=datetime.now().month)
     current_month_sales_value = 0
