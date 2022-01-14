@@ -1,4 +1,4 @@
-﻿
+
 
 # Table of contents
 
@@ -86,7 +86,6 @@ This project was fairly more challenging to implement than any previous project.
 1. Start the server
 	```
 	>> python manage.py runserver
-	>> python manage.py migrate
 	```
 ## File structure
 ```
