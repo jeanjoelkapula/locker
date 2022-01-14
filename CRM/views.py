@@ -874,7 +874,7 @@ def complete_task(request, task_id):
                 s = LeadStatus.objects.get(name="Won")
                 lead.status = s
                 lead.save()
-                obj, created = Sale.objects.get_or_create(lead=lead)
+                obj, created = Sale.objects.get_or_create(lead=lead, customer=request.user.customer)
 
             return JsonResponse({"success": "Task was successfully updated", "is_stage_complete": is_stage_complete, "is_lead_complete": is_lead_complete, "status": lead.status.serialize()}, status=200)
         except Task.DoesNotExist:
