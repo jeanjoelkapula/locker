@@ -206,14 +206,22 @@ function update_lead_status(element) {
 
                 if ((data.status.name == "Lost") || (data.status.name == "Cancelled")) {
                     steps.each((index, stage) => {
-            
-                        if (stage.dataset.complete == "True") {
+                        if (index == 0){
                             $(stage).removeClass('current');
                             $(stage).addClass('step-disabled');
+          
                         }
                         else {
-                            $(stage).addClass('step-list-item');
+                            if (stage.dataset.complete == "True") {
+                                $(stage).removeClass('current');
+                                $(stage).addClass('step-disabled');
+                            }
+                            else {
+                                
+                                $(stage).addClass('step-list-item');
+                            }
                         }
+                        
                     });
 
                     $('input[type=checkbox]').attr('disabled', true);
@@ -227,7 +235,7 @@ function update_lead_status(element) {
                             $(stage).removeClass('step-disabled');
                         }
                         
-                        if(stage.classList.contains('done')){
+                        if((stage.classList.contains('done')) || (index == 0)){
                             $(stage).addClass('current');
 
                         }

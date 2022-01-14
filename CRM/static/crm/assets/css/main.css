@@ -29,6 +29,7 @@
 
 .arrow-steps .step-list-item {
 	background-color: #f4f4f4 !important;
+    color: black !important;
 }
 
 .arrow-steps .add-new:hover {
