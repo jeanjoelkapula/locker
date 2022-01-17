@@ -1,6 +1,6 @@
 $(function() {
 
-  $('.account-settings-multiselect').each(function() {
+  /*$('.account-settings-multiselect').each(function() {
     $(this)
       .wrap('<div class="position-relative"></div>')
       .select2({
@@ -9,5 +9,5 @@ $(function() {
   });
 
   $('.account-settings-tagsinput').tagsinput({ tagClass: 'badge badge-default' });
-
+*/
 });
