@@ -25,7 +25,7 @@ SECRET_KEY = 't7w8aupyqr0p(yyd4#9l=+xpf99+qmz)2fi1%uo@$7=x3gh&h1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['locker-crm.herokuapp.com']
 
 
 # Application definition
