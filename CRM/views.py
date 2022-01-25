@@ -46,7 +46,7 @@ def index(request):
         datetime_object = datetime.strptime(str((prev.month)), "%m")
         month_name = datetime_object.strftime("%b")
         month_sales.append(len(total_sales.filter(date__month=prev.month)))
-        month_losses.append(len(LeadLoss.objects.filter(date__month=prev.month)))
+        month_losses.append(len(LeadLoss.objects.filter(date__month=prev.month, customer=request.user.customer)))
         labels.append(f"{month_name} - {prev.year}")
         prev = prev.replace(day=1) - timedelta(days=1)
     
@@ -411,10 +411,10 @@ def update_lead_status(request, lead_id):
                     lead.save()
                 
                     if lead.status.name == "Lost":
-                        obj, created = LeadLoss.objects.get_or_create(lead=lead, reason=data.get('reason'))
+                        obj, created = LeadLoss.objects.get_or_create(customer = request.user.customer,lead=lead, reason=data.get('reason'))
                     
                     if lead.status.name == "Open":
-                        LeadLoss.objects.filter(lead=lead).delete()
+                        LeadLoss.objects.filter(customer=request.user.customer, lead=lead).delete()
 
                     return JsonResponse({"success": "Lead was successfully updated", "status":s.serialize()}, status=200)
                 else:

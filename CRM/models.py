@@ -188,6 +188,7 @@ class LeadProgress(models.Model):
         return f"{self.lead}"
 class LeadLoss(models.Model):
     lead = models.ForeignKey(Lead, null=False, blank=False, on_delete=CASCADE, related_name="losses")
+    customer = models.ForeignKey(Customer, null=False, blank=False, related_name="customer_losses", on_delete=CASCADE) 
     reason = models.TextField(max_length=255, null=False, blank=False)
     date = models.DateField(auto_now_add=True)
 
